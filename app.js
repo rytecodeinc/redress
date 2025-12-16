@@ -283,7 +283,8 @@ function main() {
     render(currentPage);
   });
 
-  byId("year").textContent = String(new Date().getFullYear());
+  const yearEl = byId("year");
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
   setLayout(getInitialLayout());
   render(currentPage);
 }
