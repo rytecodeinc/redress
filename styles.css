@@ -766,6 +766,39 @@ body.page-outfit-builder .ob-grid {
   cursor: grab;
 }
 
+.ob-canvas-item-delete {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid rgba(57, 57, 57, 0.22);
+  background: rgba(255, 254, 248, 0.92);
+  color: rgba(57, 57, 57, 0.9);
+  line-height: 1;
+  font-size: 1.6rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ob-canvas-item.is-selected .ob-canvas-item-delete {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ob-canvas-item-delete:hover {
+  background: rgba(255, 254, 248, 1);
+  border-color: rgba(57, 57, 57, 0.35);
+}
+
+.ob-canvas-item-delete:focus-visible {
+  outline: 2px solid rgba(57, 57, 57, 0.35);
+  outline-offset: 3px;
+}
+
 .ob-canvas-item:active {
   cursor: grabbing;
 }

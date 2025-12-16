@@ -91,6 +91,7 @@ function makeCanvasItem({ name, color }, { x, y }) {
       <div class="color-block" aria-hidden="true"></div>
     </div>
     <div class="ob-canvas-item-label">${escapeHtml(name)}</div>
+    <button type="button" class="ob-canvas-item-delete" aria-label="Remove item" tabindex="-1">×</button>
   `;
   return el;
 }
@@ -210,6 +211,8 @@ function main() {
 
   // Canvas selection.
   canvasEl.addEventListener("pointerdown", (e) => {
+    // If the delete button was pressed, don’t treat it as a selection drag start.
+    if (e.target && e.target.closest(".ob-canvas-item-delete")) return;
     const item = e.target.closest(".ob-canvas-item");
     if (!item) {
       setSelected(null);
@@ -218,9 +221,22 @@ function main() {
     setSelected(item);
   });
 
+  // Delete button on selected item.
+  canvasEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".ob-canvas-item-delete");
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const item = btn.closest(".ob-canvas-item");
+    if (!item) return;
+    item.remove();
+    if (selectedCanvasItem === item) setSelected(null);
+  });
+
   // Drag items around inside canvas via pointer events.
   let dragState = null;
   canvasEl.addEventListener("pointerdown", (e) => {
+    if (e.target && e.target.closest(".ob-canvas-item-delete")) return;
     const item = e.target.closest(".ob-canvas-item");
     if (!item) return;
     item.setPointerCapture(e.pointerId);
