@@ -415,11 +415,6 @@ select {
   padding-top: 150%;
 }
 
-/* In 9-col gallery mode, use squarer tiles */
-#ns-product-grid[data-layout="gallery"] .card-media::before {
-  padding-top: 100%;
-}
-
 .color-block {
   position: absolute;
   inset: 0;
