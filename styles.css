@@ -233,8 +233,8 @@ a:hover {
 /* Outfit Builder: place title-row on same line as breadcrumbs */
 .ob-header-row {
   display: flex;
-  align-items: flex-end;
   justify-content: space-between;
+  align-items: center;
   gap: 1.2rem;
 }
 
@@ -252,6 +252,7 @@ a:hover {
   margin-top: 0;
   flex: 0 0 auto;
   text-align: center;
+  display: block;
 }
 
 .crumb-sep {
