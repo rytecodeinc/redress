@@ -230,6 +230,30 @@ a:hover {
   text-align: center;
 }
 
+/* Outfit Builder: place title-row on same line as breadcrumbs */
+.ob-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.ob-breadcrumb-row,
+.ob-header-spacer {
+  flex: 1;
+  min-width: 0;
+}
+
+.ob-breadcrumb-row {
+  justify-content: flex-start;
+}
+
+.ob-title-row {
+  margin-top: 0;
+  flex: 0 0 auto;
+  text-align: center;
+}
+
 .crumb-sep {
   opacity: 0.55;
 }
