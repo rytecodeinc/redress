@@ -230,29 +230,36 @@ a:hover {
   text-align: center;
 }
 
-/* Outfit Builder: place title-row on same line as breadcrumbs */
-.ob-header-row {
+/* Shared: place title-row on same line as breadcrumbs */
+.page-header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1.2rem;
 }
 
-.ob-breadcrumb-row,
-.ob-header-spacer {
+.page-breadcrumb-col,
+.page-header-spacer {
   flex: 1;
   min-width: 0;
 }
 
-.ob-breadcrumb-row {
+.page-breadcrumb-col {
   justify-content: flex-start;
 }
 
-.ob-title-row {
+.page-title-row {
   margin-top: 0;
   flex: 0 0 auto;
   text-align: center;
   display: block;
+}
+
+.page-actions-row {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
 .crumb-sep {

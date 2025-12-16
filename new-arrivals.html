@@ -19,33 +19,36 @@
 
     <main id="main" class="page">
       <div class="page-top">
-        <div class="breadcrumbs-row">
-          <div class="breadcrumbs" aria-label="Breadcrumb">
-            <a href="./index.html">Home</a>
-            <span class="crumb-sep" aria-hidden="true">/</span>
-            <span aria-current="page">New Arrivals</span>
+        <div class="page-header-row">
+          <div class="breadcrumbs-row page-breadcrumb-col">
+            <div class="breadcrumbs" aria-label="Breadcrumb">
+              <a href="./index.html">Home</a>
+              <span class="crumb-sep" aria-hidden="true">/</span>
+              <span aria-current="page">New Arrivals</span>
+            </div>
           </div>
-          <h1 class="page-title page-title-center">New Arrivals</h1>
-          <div class="breadcrumbs-spacer" aria-hidden="true"></div>
+
+          <div class="title-row page-title-row">
+            <div>
+              <h1 class="page-title">New Arrivals</h1>
+              <p class="page-subtitle">Fresh drops curated for your closet.</p>
+            </div>
+          </div>
+
+          <div class="page-header-spacer" aria-hidden="true"></div>
         </div>
 
-        <div class="title-row">
-          <div>
-            <p class="page-subtitle">Fresh drops curated for your closet.</p>
-          </div>
-
-          <div class="controls">
-            <button class="pill" type="button">Filter</button>
-            <label class="select" aria-label="Sort">
-              <span class="select-label">Sort</span>
-              <select id="sortSelect">
-                <option value="featured">Featured</option>
-                <option value="newest">Newest</option>
-                <option value="name-asc">Name (A–Z)</option>
-                <option value="name-desc">Name (Z–A)</option>
-              </select>
-            </label>
-          </div>
+        <div class="page-actions-row">
+          <button class="pill" type="button">Filter</button>
+          <label class="select" aria-label="Sort">
+            <span class="select-label">Sort</span>
+            <select id="sortSelect">
+              <option value="featured">Featured</option>
+              <option value="newest">Newest</option>
+              <option value="name-asc">Name (A–Z)</option>
+              <option value="name-desc">Name (Z–A)</option>
+            </select>
+          </label>
         </div>
       </div>
 
