@@ -97,6 +97,17 @@
 
         <div class="ob-main">
           <div class="ob-panels">
+            <div class="ob-canvas-panel" aria-label="Canvas">
+              <div class="ob-panel-head ob-canvas-head">
+                <div class="ob-canvas-actions">
+                  <button class="pill ob-clear-canvas" type="button">Clear canvas</button>
+                  <button class="pill ob-delete-selected" type="button" disabled>Delete selected</button>
+                </div>
+              </div>
+              <div class="ob-canvas-hint">Drag items here to create your outfit collage.</div>
+              <div id="obCanvas" class="ob-canvas" role="application" aria-label="Outfit canvas"></div>
+            </div>
+
             <div class="ob-grid-panel" aria-label="Items">
               <div class="ob-panel-head">
                 <div class="results-meta" id="obResultsMeta" aria-live="polite"></div>
@@ -122,17 +133,6 @@
                 </div>
               </div>
               <div class="ob-grid" id="obItemGrid" aria-live="polite"></div>
-            </div>
-
-            <div class="ob-canvas-panel" aria-label="Canvas">
-              <div class="ob-panel-head ob-canvas-head">
-                <div class="ob-canvas-actions">
-                  <button class="pill ob-clear-canvas" type="button">Clear canvas</button>
-                  <button class="pill ob-delete-selected" type="button" disabled>Delete selected</button>
-                </div>
-              </div>
-              <div class="ob-canvas-hint">Drag items here to create your outfit collage.</div>
-              <div id="obCanvas" class="ob-canvas" role="application" aria-label="Outfit canvas"></div>
             </div>
           </div>
         </div>
