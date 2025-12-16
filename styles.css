@@ -212,15 +212,22 @@ a:hover {
 }
 
 .breadcrumbs-row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 12px;
 }
 
-.page-title-center {
+/* Use equal “rails” so the title stays centered */
+.breadcrumbs-row > .breadcrumbs,
+.breadcrumbs-row > .breadcrumbs-spacer {
+  flex: 1;
+  min-width: 0;
+}
+
+.breadcrumbs-row > .page-title {
+  flex: 0 0 auto;
   text-align: center;
-  justify-self: center;
 }
 
 .crumb-sep {
