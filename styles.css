@@ -494,6 +494,8 @@ select {
 
 .card {
   display: block;
+  /* Prevent long text from influencing CSS grid track sizing */
+  min-width: 0;
 }
 
 .card-media {
@@ -741,6 +743,14 @@ select {
   text-overflow: ellipsis;
 }
 
+/* Also ensure meta can’t reflow and change dense grid packing */
+#ns-product-grid[data-layout="gallery"] .card-meta,
+.ob-grid[data-layout="gallery"] .card-meta {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 1100px) {
   .ob-panels {
     grid-template-columns: 1fr;
@@ -766,12 +776,14 @@ select {
   letter-spacing: -0.01em;
   color: rgba(18, 18, 18, 0.92);
   line-height: 1.35;
+  min-width: 0;
 }
 
 .card-meta {
   margin-top: 4px;
   font-size: 1.2rem;
   color: rgba(57, 57, 57, 0.58);
+  min-width: 0;
 }
 
 .pagination {
