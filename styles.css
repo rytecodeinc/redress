@@ -284,6 +284,40 @@ select {
   margin-top: 26px;
 }
 
+.home-panels {
+  margin-top: 2.6rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.6rem;
+}
+
+.home-panel {
+  border: 1px solid var(--soft);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 1.6rem;
+}
+
+.home-kicker {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(57, 57, 57, 0.6);
+}
+
+.home-heading {
+  margin-top: 0.8rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.home-body {
+  margin-top: 0.8rem;
+  font-size: 1.3rem;
+  color: rgba(57, 57, 57, 0.72);
+  line-height: 1.5;
+}
+
 .results-meta {
   margin: 0 0 14px;
   font-size: 12px;
@@ -418,20 +452,203 @@ select {
 .color-block {
   position: absolute;
   inset: 0;
-  background: #c8c7ba;
+  background: var(--tile, #c8c7ba);
 }
 
 /* Alternating solid blocks (Cult Gaia-like alternating tones) */
-.card:nth-child(4n + 1) .color-block { background: #c8c7ba; }
-.card:nth-child(4n + 2) .color-block { background: #bac8c3; }
-.card:nth-child(4n + 3) .color-block { background: #d9d2c7; }
-.card:nth-child(4n + 4) .color-block { background: #e7dfd2; }
+.card:nth-child(4n + 1) { --tile: #c8c7ba; }
+.card:nth-child(4n + 2) { --tile: #bac8c3; }
+.card:nth-child(4n + 3) { --tile: #d9d2c7; }
+.card:nth-child(4n + 4) { --tile: #e7dfd2; }
 
 /* Slightly different cycle on odd rows, similar to “alternating” feel */
-.card:nth-child(8n + 5) .color-block { background: #d7dcd2; }
-.card:nth-child(8n + 6) .color-block { background: #cfd7d1; }
-.card:nth-child(8n + 7) .color-block { background: #d8cfc5; }
-.card:nth-child(8n + 8) .color-block { background: #e5ddd1; }
+.card:nth-child(8n + 5) { --tile: #d7dcd2; }
+.card:nth-child(8n + 6) { --tile: #cfd7d1; }
+.card:nth-child(8n + 7) { --tile: #d8cfc5; }
+.card:nth-child(8n + 8) { --tile: #e5ddd1; }
+
+/* Outfit Builder */
+.ob-page {
+  max-width: 100%;
+}
+
+.ob-layout {
+  margin-top: 2.0rem;
+  display: grid;
+  grid-template-columns: 28rem minmax(0, 1fr);
+  gap: 2.4rem;
+  align-items: start;
+}
+
+.ob-sidebar {
+  border: 1px solid var(--soft);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 1.6rem;
+  position: sticky;
+  top: 8.4rem;
+  height: fit-content;
+}
+
+.ob-sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ob-sidebar-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.ob-filter {
+  margin-top: 1.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(57, 57, 57, 0.08);
+}
+
+.ob-filter-title {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(57, 57, 57, 0.65);
+  margin-bottom: 1rem;
+}
+
+.ob-check {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.3rem;
+  color: rgba(57, 57, 57, 0.85);
+  margin: 0.6rem 0;
+  user-select: none;
+}
+
+.ob-check input {
+  accent-color: #393939;
+}
+
+.ob-swatch {
+  width: 1.2rem;
+  height: 1.2rem;
+  background: var(--tile);
+  border: 1px solid rgba(57, 57, 57, 0.2);
+  display: inline-block;
+}
+
+.ob-main-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.ob-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.4rem;
+}
+
+.ob-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.2rem 1.6rem;
+}
+
+.ob-card {
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.ob-card:focus-visible {
+  outline: 2px solid rgba(57, 57, 57, 0.35);
+  outline-offset: 6px;
+}
+
+.ob-canvas-panel {
+  border: 1px solid var(--soft);
+  background: rgba(255, 255, 255, 0.35);
+  padding: 1.6rem;
+}
+
+.ob-canvas-hint {
+  font-size: 1.2rem;
+  color: rgba(57, 57, 57, 0.65);
+  margin-bottom: 1rem;
+}
+
+.ob-canvas {
+  position: relative;
+  height: 56rem;
+  background: rgba(255, 254, 248, 0.85);
+  border: 1px dashed rgba(57, 57, 57, 0.25);
+  overflow: hidden;
+}
+
+.ob-canvas-item {
+  position: absolute;
+  width: 12rem;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+}
+
+.ob-canvas-item:active {
+  cursor: grabbing;
+}
+
+.ob-canvas-item.is-selected {
+  outline: 2px solid rgba(57, 57, 57, 0.45);
+  outline-offset: 4px;
+}
+
+.ob-canvas-item-media {
+  position: relative;
+  border: 1px solid rgba(57, 57, 57, 0.12);
+}
+
+.ob-canvas-item-media::before {
+  content: "";
+  display: block;
+  padding-top: 150%;
+}
+
+.ob-canvas-item-label {
+  margin-top: 0.6rem;
+  font-size: 1.1rem;
+  color: rgba(57, 57, 57, 0.75);
+  line-height: 1.2;
+}
+
+@media (max-width: 1100px) {
+  .ob-panels {
+    grid-template-columns: 1fr;
+  }
+  .ob-canvas {
+    height: 46rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-panels {
+    grid-template-columns: 1fr;
+  }
+  .ob-layout {
+    grid-template-columns: 1fr;
+  }
+  .ob-sidebar {
+    position: relative;
+    top: auto;
+  }
+  .ob-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
 .card-title {
   margin: 10px 0 0;

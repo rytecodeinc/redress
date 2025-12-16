@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Redress — New Arrivals</title>
+    <title>Redress — Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -26,9 +26,10 @@
         </div>
 
         <nav class="nav" aria-label="Primary">
+          <a class="nav-link nav-link-active" href="./index.html">Home</a>
           <a class="nav-link" href="#">Closet</a>
-          <a class="nav-link" href="#">Outfits</a>
-          <a class="nav-link nav-link-active" href="#">New Arrivals</a>
+          <a class="nav-link" href="./outfit-builder.html">Outfit Builder</a>
+          <a class="nav-link" href="./new-arrivals.html">New Arrivals</a>
           <a class="nav-link" href="#">Resale</a>
         </nav>
 
@@ -55,62 +56,39 @@
     <main id="main" class="page">
       <div class="page-top">
         <div class="breadcrumbs" aria-label="Breadcrumb">
-          <a href="#">Home</a>
-          <span class="crumb-sep" aria-hidden="true">/</span>
-          <span aria-current="page">New Arrivals</span>
+          <span aria-current="page">Home</span>
         </div>
 
         <div class="title-row">
           <div>
-            <h1 class="page-title">New Arrivals</h1>
-            <p class="page-subtitle">Fresh drops curated for your closet.</p>
+            <h1 class="page-title">Welcome back</h1>
+            <p class="page-subtitle">
+              Placeholder homepage copy — this will become your logged-in dashboard (closet stats, recent outfits, saved looks, and suggested edits).
+            </p>
           </div>
 
           <div class="controls">
-            <button class="pill" type="button">Filter</button>
-            <label class="select" aria-label="Sort">
-              <span class="select-label">Sort</span>
-              <select id="sortSelect">
-                <option value="featured">Featured</option>
-                <option value="newest">Newest</option>
-                <option value="name-asc">Name (A–Z)</option>
-                <option value="name-desc">Name (Z–A)</option>
-              </select>
-            </label>
+            <a class="pill" href="./new-arrivals.html">Browse New Arrivals</a>
+            <a class="pill" href="./outfit-builder.html">Open Outfit Builder</a>
           </div>
         </div>
       </div>
 
-      <section class="collection" aria-label="Items">
-        <div class="ns-controls-row">
-          <div role="group" aria-label="Layout options" class="ns-grid-controls ns-flex ns-flex-nowrap ns-items-center">
-            <button aria-pressed="false" aria-label="Set to gallery layout" class="ns-grid-toggle ns-toggle-gallery" type="button">
-              <svg aria-hidden="true" role="presentation" width="16.8" height="10.8" viewBox="0 0 14 10" fill="#bac8c3" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 .5h4v4H0zM0 5.5h4v4H0zM5 .5h4v4H5zM5 5.5h4v4H5zM10 .5h4v4h-4zM10 5.5h4v4h-4z"></path>
-              </svg>
-            </button>
-            <button aria-pressed="true" aria-label="Set to 4 column layout" class="ns-grid-toggle ns-toggle-compact" type="button">
-              <svg aria-hidden="true" role="presentation" xmlns="http://www.w3.org/2000/svg" width="20.4" height="12" viewBox="0 0 88 58" fill="#bac8c3">
-                <g clip-path="url(#ns-clip-001)">
-                  <path d="M20 0H0V58H20V0Z"></path>
-                  <path d="M43 0H22V58H43V0Z"></path>
-                  <path d="M45 0H65V58H45V0Z"></path>
-                  <path d="M88 0H67V58H88V0Z"></path>
-                </g>
-                <defs>
-                  <clipPath id="ns-clip-001"><rect width="88" height="58" fill="white"></rect></clipPath>
-                </defs>
-              </svg>
-            </button>
-          </div>
+      <section class="home-panels" aria-label="Homepage placeholders">
+        <div class="home-panel">
+          <div class="home-kicker">Closet</div>
+          <div class="home-heading">Your closet overview</div>
+          <div class="home-body">Placeholder: total items, categories breakdown, and “needs review” suggestions.</div>
         </div>
-        <div class="results-meta" id="resultsMeta" aria-live="polite"></div>
-        <div class="grid" id="ns-product-grid" aria-live="polite"></div>
-
-        <div class="pagination" aria-label="Pagination">
-          <button id="prevBtn" class="page-btn" type="button">Previous</button>
-          <div id="pageNumbers" class="page-numbers" role="navigation" aria-label="Page numbers"></div>
-          <button id="nextBtn" class="page-btn" type="button">Next</button>
+        <div class="home-panel">
+          <div class="home-kicker">Outfits</div>
+          <div class="home-heading">Recent outfits</div>
+          <div class="home-body">Placeholder: last 6 outfits, quick edit, and share/export actions.</div>
+        </div>
+        <div class="home-panel">
+          <div class="home-kicker">Planner</div>
+          <div class="home-heading">This week</div>
+          <div class="home-body">Placeholder: calendar slots + weather-aware suggestions.</div>
         </div>
       </section>
     </main>
@@ -126,6 +104,8 @@
       </div>
     </footer>
 
-    <script src="./app.js"></script>
+    <script>
+      document.getElementById("year").textContent = String(new Date().getFullYear());
+    </script>
   </body>
 </html>
