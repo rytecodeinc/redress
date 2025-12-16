@@ -528,12 +528,8 @@ select {
 @media (min-width: 768px) {
   #ns-product-grid[data-layout="gallery"],
   .ob-grid[data-layout="gallery"] {
-    --ns-gallery-cols: 9;
-    --ns-gallery-col-gap: 1.6rem;
-    --ns-gallery-tile-w: calc(
-      (100% - (var(--ns-gallery-cols) - 1) * var(--ns-gallery-col-gap)) /
-        var(--ns-gallery-cols)
-    );
+    /* Use explicit math (more browser-compatible than dividing by var()) */
+    --ns-gallery-tile-w: calc((100% - 8 * 1.6rem) / 9);
     --ns-gallery-tile-h: calc(var(--ns-gallery-tile-w) * 1.5);
   }
 
