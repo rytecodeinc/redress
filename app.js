@@ -61,7 +61,8 @@ const PRODUCTS = [
   "Koru Statement Ring",
 ];
 
-const PAGE_SIZE = 24;
+const PAGE_SIZE_COMPACT = 24; // 4-col mode
+const PAGE_SIZE_GALLERY = 27; // 9-col mode (3 rows)
 const LAYOUT_KEY = "ns:gridLayout";
 
 function byId(id) {
@@ -204,6 +205,11 @@ function main() {
 
   let sortMode = sortSelect.value;
   let sorted = applySort(allProducts, sortMode);
+  let currentPage = getPageFromUrl();
+
+  function pageSizeForLayout() {
+    return gridEl.dataset.layout === "gallery" ? PAGE_SIZE_GALLERY : PAGE_SIZE_COMPACT;
+  }
 
   function setLayout(layout) {
     const next = layout === "gallery" ? "gallery" : "compact";
@@ -215,6 +221,9 @@ function main() {
     } catch {
       // ignore
     }
+
+    // Keep pagination aligned to the chosen layout's page size.
+    render(currentPage);
   }
 
   function getInitialLayout() {
@@ -228,11 +237,13 @@ function main() {
   }
 
   function render(page) {
-    const totalPages = pageCount(sorted.length, PAGE_SIZE);
+    const pageSize = pageSizeForLayout();
+    const totalPages = pageCount(sorted.length, pageSize);
     const safePage = clamp(page, 1, totalPages);
+    currentPage = safePage;
 
-    const start = (safePage - 1) * PAGE_SIZE;
-    const slice = sorted.slice(start, start + PAGE_SIZE);
+    const start = (safePage - 1) * pageSize;
+    const slice = sorted.slice(start, start + pageSize);
     const from = sorted.length === 0 ? 0 : start + 1;
     const to = start + slice.length;
 
@@ -246,6 +257,7 @@ function main() {
       pageNumbersEl,
       onPage: (p) => {
         const nextPage = clamp(p, 1, totalPages);
+        currentPage = nextPage;
         setPageInUrl(nextPage);
         render(nextPage);
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -267,12 +279,13 @@ function main() {
   if (compactBtn) compactBtn.addEventListener("click", () => setLayout("compact"));
 
   window.addEventListener("popstate", () => {
-    render(getPageFromUrl());
+    currentPage = getPageFromUrl();
+    render(currentPage);
   });
 
   byId("year").textContent = String(new Date().getFullYear());
   setLayout(getInitialLayout());
-  render(getPageFromUrl());
+  render(currentPage);
 }
 
 main();
