@@ -1,6 +1,7 @@
 class RedressHeader extends HTMLElement {
   connectedCallback() {
     const active = (this.getAttribute("active") || "").trim();
+    const base = getBasePath();
 
     this.innerHTML = `
       <header class="site-header">
@@ -14,9 +15,9 @@ class RedressHeader extends HTMLElement {
           </div>
 
           <nav class="nav" aria-label="Primary">
-            <a class="nav-link" data-nav="home" href="./index.html">Home</a>
-            <a class="nav-link" data-nav="closet" href="/closet/">Closet</a>
-            <a class="nav-link" data-nav="outfit-builder" href="./outfit-builder.html">Outfit Builder</a>
+            <a class="nav-link" data-nav="home" href="${base}">Home</a>
+            <a class="nav-link" data-nav="closet" href="${base}closet/">Closet</a>
+            <a class="nav-link" data-nav="outfit-builder" href="${base}outfit-builder.html">Outfit Builder</a>
             <a class="nav-link" data-nav="resale" href="#">Resale</a>
           </nav>
 
@@ -69,4 +70,14 @@ class RedressFooter extends HTMLElement {
 
 customElements.define("redress-header", RedressHeader);
 customElements.define("redress-footer", RedressFooter);
+
+function getBasePath() {
+  // Supports GitHub Pages project sites (e.g. /Redress/...) and local root (/).
+  const { hostname, pathname } = window.location;
+  const segments = pathname.split("/").filter(Boolean);
+  if (hostname.endsWith("github.io") && segments.length >= 1) {
+    return `/${segments[0]}/`;
+  }
+  return "/";
+}
 
