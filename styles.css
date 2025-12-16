@@ -1,14 +1,14 @@
 :root {
-  --bg: #ffffff;
-  --ink: #121212;
-  --muted: #5e5e5e;
-  --border: rgba(18, 18, 18, 0.12);
-  --soft: rgba(18, 18, 18, 0.06);
-  --surface: #fbfbfb;
-  --shadow: 0 18px 50px rgba(18, 18, 18, 0.08);
-  --radius: 14px;
-  --radius-sm: 10px;
-  --max: 1240px;
+  /* Cult Gaia-like neutrals */
+  --bg: #fffef8;
+  --ink: #393939;
+  --muted: rgba(57, 57, 57, 0.7);
+  --border: rgba(57, 57, 57, 0.18);
+  --soft: rgba(57, 57, 57, 0.1);
+  --surface: #fffef8;
+  --shadow: 0 18px 50px rgba(57, 57, 57, 0.12);
+  --radius: 0px;
+  --radius-sm: 0px;
 }
 
 * {
@@ -20,11 +20,17 @@ body {
   height: 100%;
 }
 
+/* Match Cult Gaia's rem scale */
+html {
+  font-size: 62.5%;
+}
+
 body {
   margin: 0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--ink);
   background: var(--bg);
+  font-size: 1.1rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -59,15 +65,15 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 254, 248, 0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--soft);
 }
 
 .header-inner {
-  max-width: var(--max);
+  max-width: 100%;
   margin: 0 auto;
-  padding: 14px 18px;
+  padding: 1.4rem 2.6rem;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -188,9 +194,9 @@ a:hover {
 }
 
 .page {
-  max-width: var(--max);
+  max-width: 100%;
   margin: 0 auto;
-  padding: 26px 18px 52px;
+  padding: 2.6rem 2.6rem 5.2rem;
 }
 
 .page-top {
@@ -219,7 +225,7 @@ a:hover {
 
 .page-title {
   margin: 0;
-  font-size: 34px;
+  font-size: 3.4rem;
   letter-spacing: -0.04em;
   font-weight: 600;
 }
@@ -227,7 +233,7 @@ a:hover {
 .page-subtitle {
   margin: 8px 0 0;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 1.4rem;
 }
 
 .controls {
@@ -286,13 +292,22 @@ select {
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 26px 18px;
+  /* Mirror Cult Gaia's column gutters:
+     cols: margin-left/right negative; items: padding-left/right.
+     Default: 2-up (50%) until >=1240px, then 4-up (25%).
+  */
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -0.8rem;
+  margin-right: -0.8rem;
 }
 
 .card {
-  display: block;
+  display: inline-block;
+  width: 50%;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  padding-bottom: 0;
 }
 
 .card-media {
@@ -300,34 +315,45 @@ select {
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--surface);
-  border: 1px solid var(--soft);
-  box-shadow: 0 1px 0 rgba(18, 18, 18, 0.04);
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  border: none;
+  box-shadow: none;
+  transition: none;
 }
 
 .card:hover .card-media {
-  transform: translateY(-2px);
-  border-color: var(--border);
-  box-shadow: var(--shadow);
+  transform: none;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .card-media::before {
   content: "";
   display: block;
-  padding-top: 132%;
+  /* Cult Gaia product tiles are roughly 2:3 (w:h) */
+  padding-top: 150%;
 }
 
-.card-media img {
+.color-block {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  background: #c8c7ba;
 }
+
+/* Alternating solid blocks (Cult Gaia-like alternating tones) */
+.card:nth-child(4n + 1) .color-block { background: #c8c7ba; }
+.card:nth-child(4n + 2) .color-block { background: #bac8c3; }
+.card:nth-child(4n + 3) .color-block { background: #d9d2c7; }
+.card:nth-child(4n + 4) .color-block { background: #e7dfd2; }
+
+/* Slightly different cycle on odd rows, similar to “alternating” feel */
+.card:nth-child(8n + 5) .color-block { background: #d7dcd2; }
+.card:nth-child(8n + 6) .color-block { background: #cfd7d1; }
+.card:nth-child(8n + 7) .color-block { background: #d8cfc5; }
+.card:nth-child(8n + 8) .color-block { background: #e5ddd1; }
 
 .card-title {
   margin: 10px 0 0;
-  font-size: 13px;
+  font-size: 1.3rem;
   letter-spacing: -0.01em;
   color: rgba(18, 18, 18, 0.92);
   line-height: 1.35;
@@ -335,8 +361,8 @@ select {
 
 .card-meta {
   margin-top: 4px;
-  font-size: 12px;
-  color: rgba(18, 18, 18, 0.58);
+  font-size: 1.2rem;
+  color: rgba(57, 57, 57, 0.58);
 }
 
 .pagination {
@@ -403,18 +429,18 @@ select {
 
 .site-footer {
   border-top: 1px solid var(--soft);
-  background: #fff;
+  background: var(--bg);
 }
 
 .footer-inner {
-  max-width: var(--max);
+  max-width: 100%;
   margin: 0 auto;
-  padding: 18px;
+  padding: 1.8rem 2.6rem;
   display: flex;
   justify-content: space-between;
   gap: 16px;
   color: rgba(18, 18, 18, 0.65);
-  font-size: 13px;
+  font-size: 1.3rem;
 }
 
 .footer-links {
@@ -422,7 +448,34 @@ select {
   gap: 16px;
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 768px) {
+  .header-inner {
+    padding-left: 2.8rem;
+    padding-right: 2.8rem;
+  }
+
+  .page {
+    padding-left: 2.8rem;
+    padding-right: 2.8rem;
+  }
+
+  .footer-inner {
+    padding-left: 2.8rem;
+    padding-right: 2.8rem;
+  }
+
+  .grid {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
+  .card {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 1023px) {
   .header-inner {
     grid-template-columns: 1fr auto;
     grid-template-areas:
@@ -444,35 +497,49 @@ select {
   .header-actions {
     grid-area: actions;
   }
-
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
 }
 
-@media (max-width: 780px) {
-  .title-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .page-title {
-    font-size: 30px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px 14px;
-  }
-}
-
-@media (max-width: 460px) {
-  .grid {
-    grid-template-columns: 1fr;
+@media (min-width: 1024px) {
+  .header-inner {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
   }
 
   .page {
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+
+  .footer-inner {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+
+  .grid {
+    margin-left: -1.6rem;
+    margin-right: -1.6rem;
+  }
+
+  .card {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+}
+
+@media (min-width: 1240px) {
+  body {
+    font-size: 1.6rem;
+  }
+
+  .grid {
+    margin-left: -1.6rem;
+    margin-right: -1.6rem;
+  }
+
+  .card {
+    width: 25%;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+    padding-bottom: 1.2rem; /* matches .products__inner .col--auto */
   }
 }

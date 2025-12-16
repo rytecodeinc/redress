@@ -82,10 +82,8 @@ function setPageInUrl(page) {
 function buildProductList(names) {
   return names.map((name, idx) => {
     const id = idx + 1;
-    // Stable placeholder images (remote) so the grid looks realistic.
-    const image = `https://picsum.photos/seed/redress-${id}/900/1200`;
     const tag = idx % 7 === 0 ? "Just In" : idx % 11 === 0 ? "Trending" : "New";
-    return { id, name, image, tag };
+    return { id, name, tag };
   });
 }
 
@@ -135,7 +133,7 @@ function renderGrid(gridEl, items) {
       (p) => `
       <a class="card" href="#" aria-label="${escapeHtml(p.name)}">
         <div class="card-media">
-          <img loading="lazy" src="${p.image}" alt="${escapeHtml(p.name)}" />
+          <div class="color-block" aria-hidden="true"></div>
         </div>
         <div class="card-title">${escapeHtml(p.name)}</div>
         <div class="card-meta">${escapeHtml(p.tag)}</div>
