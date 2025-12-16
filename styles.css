@@ -538,19 +538,19 @@ select {
   display: inline-block;
 }
 
-.ob-main-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.2rem;
-  margin-bottom: 1.2rem;
-}
-
 .ob-meta-left {
   display: flex;
   align-items: center;
   gap: 1.2rem;
   min-width: 0;
+}
+
+.ob-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
 }
 
 .ob-panels {
