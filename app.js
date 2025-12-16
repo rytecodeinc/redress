@@ -190,7 +190,7 @@ function escapeHtml(str) {
 }
 
 function main() {
-  const gridEl = byId("productGrid");
+  const gridEl = byId("ns-product-grid");
   const resultsMetaEl = byId("resultsMeta");
   const prevBtn = byId("prevBtn");
   const nextBtn = byId("nextBtn");
