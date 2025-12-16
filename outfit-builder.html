@@ -70,31 +70,6 @@
       </div>
 
       <section class="ob-layout" aria-label="Outfit builder">
-        <aside class="ob-sidebar" aria-label="Filters">
-          <div class="ob-sidebar-head">
-            <div class="ob-sidebar-title">Filters</div>
-            <button class="pill ob-clear-filters" type="button">Clear</button>
-          </div>
-
-          <div class="ob-filter">
-            <div class="ob-filter-title">Category</div>
-            <label class="ob-check"><input type="checkbox" name="cat" value="Tops" /> <span>Tops</span></label>
-            <label class="ob-check"><input type="checkbox" name="cat" value="Bottoms" /> <span>Bottoms</span></label>
-            <label class="ob-check"><input type="checkbox" name="cat" value="Dresses" /> <span>Dresses</span></label>
-            <label class="ob-check"><input type="checkbox" name="cat" value="Shoes" /> <span>Shoes</span></label>
-            <label class="ob-check"><input type="checkbox" name="cat" value="Bags" /> <span>Bags</span></label>
-            <label class="ob-check"><input type="checkbox" name="cat" value="Accessories" /> <span>Accessories</span></label>
-          </div>
-
-          <div class="ob-filter">
-            <div class="ob-filter-title">Color</div>
-            <label class="ob-check"><input type="checkbox" name="color" value="#c8c7ba" /> <span class="ob-swatch" style="--tile:#c8c7ba"></span><span>Sand</span></label>
-            <label class="ob-check"><input type="checkbox" name="color" value="#bac8c3" /> <span class="ob-swatch" style="--tile:#bac8c3"></span><span>Sage</span></label>
-            <label class="ob-check"><input type="checkbox" name="color" value="#d9d2c7" /> <span class="ob-swatch" style="--tile:#d9d2c7"></span><span>Stone</span></label>
-            <label class="ob-check"><input type="checkbox" name="color" value="#e7dfd2" /> <span class="ob-swatch" style="--tile:#e7dfd2"></span><span>Ivory</span></label>
-          </div>
-        </aside>
-
         <div class="ob-main">
           <div class="ob-panels">
             <div class="ob-canvas-panel" aria-label="Canvas">
@@ -109,6 +84,34 @@
             </div>
 
             <div class="ob-grid-panel" aria-label="Items">
+              <div class="ob-filters-bar" aria-label="Filters">
+                <div class="ob-filters-left">
+                  <div class="ob-filter-group" aria-label="Category filters">
+                    <div class="ob-filter-title">Category</div>
+                    <div class="ob-chips">
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Tops" /><span>Tops</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Bottoms" /><span>Bottoms</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Dresses" /><span>Dresses</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Shoes" /><span>Shoes</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Bags" /><span>Bags</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Accessories" /><span>Accessories</span></label>
+                    </div>
+                  </div>
+
+                  <div class="ob-filter-group" aria-label="Color filters">
+                    <div class="ob-filter-title">Color</div>
+                    <div class="ob-chips">
+                      <label class="ob-chip"><input type="checkbox" name="color" value="#c8c7ba" /><span><span class="ob-swatch" style="--tile:#c8c7ba"></span>Sand</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="color" value="#bac8c3" /><span><span class="ob-swatch" style="--tile:#bac8c3"></span>Sage</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="color" value="#d9d2c7" /><span><span class="ob-swatch" style="--tile:#d9d2c7"></span>Stone</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="color" value="#e7dfd2" /><span><span class="ob-swatch" style="--tile:#e7dfd2"></span>Ivory</span></label>
+                    </div>
+                  </div>
+                </div>
+
+                <button class="pill ob-clear-filters" type="button">Clear</button>
+              </div>
+
               <div class="ob-panel-head">
                 <div class="results-meta" id="obResultsMeta" aria-live="polite"></div>
                 <div role="group" aria-label="Layout options" class="ns-grid-controls ns-flex ns-flex-nowrap ns-items-center">

@@ -481,38 +481,30 @@ select {
 
 .ob-layout {
   margin-top: 2.0rem;
-  display: grid;
-  grid-template-columns: 28rem minmax(0, 1fr);
-  gap: 2.4rem;
-  align-items: start;
+  display: block;
 }
 
-.ob-sidebar {
+.ob-filters-bar {
   border: 1px solid var(--soft);
   background: rgba(255, 255, 255, 0.6);
-  padding: 1.6rem;
-  position: sticky;
-  top: 8.4rem;
-  height: fit-content;
-}
-
-.ob-sidebar-head {
+  padding: 1.2rem 1.2rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
 }
 
-.ob-sidebar-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+.ob-filters-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 1.6rem;
+  min-width: 0;
 }
 
-.ob-filter {
-  margin-top: 1.6rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid rgba(57, 57, 57, 0.08);
+.ob-filter-group {
+  min-width: 22rem;
+  max-width: 52rem;
 }
 
 .ob-filter-title {
@@ -520,21 +512,48 @@ select {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: rgba(57, 57, 57, 0.65);
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
-.ob-check {
+.ob-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.ob-chip {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  font-size: 1.3rem;
-  color: rgba(57, 57, 57, 0.85);
-  margin: 0.6rem 0;
   user-select: none;
 }
 
-.ob-check input {
-  accent-color: #393939;
+.ob-chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ob-chip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.3rem;
+  color: rgba(57, 57, 57, 0.85);
+  border: 1px solid rgba(57, 57, 57, 0.16);
+  background: rgba(255, 254, 248, 0.85);
+  padding: 0.6rem 0.9rem;
+  border-radius: 999px;
+}
+
+.ob-chip input:checked + span {
+  background: #393939;
+  border-color: #393939;
+  color: #fffef8;
+}
+
+.ob-chip input:focus-visible + span {
+  outline: 2px solid rgba(57, 57, 57, 0.35);
+  outline-offset: 3px;
 }
 
 .ob-swatch {
@@ -651,6 +670,14 @@ select {
   line-height: 1.2;
 }
 
+/* Truncate item names in gallery view (never overflow one line) */
+#ns-product-grid[data-layout="gallery"] .card-title,
+.ob-grid[data-layout="gallery"] .card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 1100px) {
   .ob-panels {
     grid-template-columns: 1fr;
@@ -664,12 +691,9 @@ select {
   .home-panels {
     grid-template-columns: 1fr;
   }
-  .ob-layout {
-    grid-template-columns: 1fr;
-  }
-  .ob-sidebar {
-    position: relative;
-    top: auto;
+  .ob-filter-group {
+    min-width: 100%;
+    max-width: 100%;
   }
 }
 
