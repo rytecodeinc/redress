@@ -230,36 +230,36 @@ a:hover {
   text-align: center;
 }
 
-/* Shared: place title-row on same line as breadcrumbs */
-.page-header-row {
+.page-actions-row {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* Outfit Builder-style header row (used on New Arrivals too) */
+.ob-header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1.2rem;
 }
 
-.page-breadcrumb-col,
-.page-header-spacer {
+.ob-breadcrumb-row,
+.ob-header-spacer {
   flex: 1;
   min-width: 0;
 }
 
-.page-breadcrumb-col {
+.ob-breadcrumb-row {
   justify-content: flex-start;
 }
 
-.page-title-row {
+.ob-title-row {
   margin-top: 0;
   flex: 0 0 auto;
   text-align: center;
   display: block;
-}
-
-.page-actions-row {
-  margin-top: 1.2rem;
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
 }
 
 .crumb-sep {
