@@ -62,7 +62,7 @@ const PRODUCTS = [
 ];
 
 const PAGE_SIZE_COMPACT = 24; // 4-col mode
-const PAGE_SIZE_GALLERY = 27; // 9-col mode (3 rows)
+const PAGE_SIZE_GALLERY = 54; // 9-col mode (6 full rows)
 const LAYOUT_KEY = "ns:gridLayout";
 
 function byId(id) {
