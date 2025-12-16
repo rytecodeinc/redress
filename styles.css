@@ -447,6 +447,9 @@ select {
   margin-bottom: auto;
   transition: transform 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95),
     -webkit-transform 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  list-style: none;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @media (min-width: 768px) {
@@ -455,12 +458,9 @@ select {
     row-gap: 1.2rem;
     column-gap: 3.2rem;
   }
-
-  /* 9-column “gallery” option */
-  #ns-product-grid[data-layout="gallery"] {
+  .ns-serp-body[data-view="-1"] #ns-product-grid {
     grid-template-columns: repeat(9, 1fr);
-    column-gap: 1.6rem;
-    row-gap: 1.2rem;
+    gap: 1.6rem;
   }
 }
 
@@ -496,6 +496,7 @@ select {
   display: block;
   /* Prevent long text from influencing CSS grid track sizing */
   min-width: 0;
+  list-style: none;
 }
 
 .card-media {
@@ -506,6 +507,8 @@ select {
   border: none;
   box-shadow: none;
   transition: none;
+  /* Cult Gaia approach */
+  aspect-ratio: 2 / 3;
 }
 
 .card:hover .card-media {
@@ -514,30 +517,14 @@ select {
   box-shadow: none;
 }
 
-.card-media::before {
-  content: "";
+.ns-product-link {
   display: block;
-  /* Cult Gaia product tiles are roughly 2:3 (w:h) */
-  padding-top: 150%;
+  text-decoration: none;
 }
 
-/* In 9-col gallery view, browsers can distribute leftover pixels unevenly
-   across tracks (some columns become 1px wider), which makes padding-top
-   aspect-ratio boxes differ by 1–2px. Force a single computed height for
-   all tiles so every card matches exactly. */
-@media (min-width: 768px) {
-  #ns-product-grid[data-layout="gallery"],
-  .ob-grid[data-layout="gallery"] {
-    /* Use explicit math (more browser-compatible than dividing by var()) */
-    --ns-gallery-tile-w: calc((100% - 8 * 1.6rem) / 9);
-    --ns-gallery-tile-h: calc(var(--ns-gallery-tile-w) * 1.5);
-  }
-
-  #ns-product-grid[data-layout="gallery"] .card-media::before,
-  .ob-grid[data-layout="gallery"] .card-media::before {
-    padding-top: 0;
-    height: var(--ns-gallery-tile-h);
-  }
+.ns-product-info {
+  padding: 1.2rem 0 2.0rem 0;
+  text-align: left;
 }
 
 .color-block {

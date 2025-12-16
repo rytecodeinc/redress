@@ -133,13 +133,17 @@ function renderGrid(gridEl, items) {
   gridEl.innerHTML = items
     .map(
       (p) => `
-      <a class="card" href="#" aria-label="${escapeHtml(p.name)}">
-        <div class="card-media">
-          <div class="color-block" aria-hidden="true"></div>
-        </div>
-        <div class="card-title">${escapeHtml(p.name)}</div>
-        <div class="card-meta">${escapeHtml(p.tag)}</div>
-      </a>
+      <li class="card ns-product" aria-label="Product ${escapeHtml(p.name)}">
+        <a class="ns-product-link" href="#" aria-label="${escapeHtml(p.name)}">
+          <div class="card-media ns-product-media">
+            <div class="color-block" aria-hidden="true"></div>
+          </div>
+          <div class="ns-product-info">
+            <div class="card-meta ns-product-tag">${escapeHtml(p.tag)}</div>
+            <div class="card-title ns-product-title">${escapeHtml(p.name)}</div>
+          </div>
+        </a>
+      </li>
     `,
     )
     .join("");
@@ -207,6 +211,9 @@ function main() {
   let sorted = applySort(allProducts, sortMode);
   let currentPage = getPageFromUrl();
 
+  // Align to Cult Gaia style selectors for view switching.
+  document.body.classList.add("ns-serp-body");
+
   function pageSizeForLayout() {
     return gridEl.dataset.layout === "gallery" ? PAGE_SIZE_GALLERY : PAGE_SIZE_COMPACT;
   }
@@ -214,6 +221,7 @@ function main() {
   function setLayout(layout) {
     const next = layout === "gallery" ? "gallery" : "compact";
     gridEl.dataset.layout = next;
+    document.body.dataset.view = next === "gallery" ? "-1" : "0";
     if (galleryBtn) galleryBtn.setAttribute("aria-pressed", String(next === "gallery"));
     if (compactBtn) compactBtn.setAttribute("aria-pressed", String(next === "compact"));
     try {
