@@ -15,7 +15,7 @@ class RedressHeader extends HTMLElement {
 
           <nav class="nav" aria-label="Primary">
             <a class="nav-link" data-nav="home" href="./index.html">Home</a>
-            <a class="nav-link" data-nav="closet" href="/closet">Closet</a>
+            <a class="nav-link" data-nav="closet" href="/closet/">Closet</a>
             <a class="nav-link" data-nav="outfit-builder" href="./outfit-builder.html">Outfit Builder</a>
             <a class="nav-link" data-nav="resale" href="#">Resale</a>
           </nav>
