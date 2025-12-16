@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redress — New Arrivals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">R</div>
+          <div class="brand-text">
+            <div class="brand-name">Redress</div>
+            <div class="brand-sub">Digital Closet</div>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Primary">
+          <a class="nav-link" href="#">Closet</a>
+          <a class="nav-link" href="#">Outfits</a>
+          <a class="nav-link nav-link-active" href="#">New Arrivals</a>
+          <a class="nav-link" href="#">Resale</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="icon-btn" type="button" aria-label="Search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-3.2-3.2"></path>
+            </svg>
+          </button>
+          <button class="icon-btn" type="button" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 7h18s-3 0-3-7"></path>
+              <path d="M13.73 21a2 2 0 01-3.46 0"></path>
+            </svg>
+          </button>
+          <button class="avatar" type="button" aria-label="Account">
+            <span class="avatar-initials" aria-hidden="true">AJ</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="page">
+      <div class="page-top">
+        <div class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="#">Home</a>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">New Arrivals</span>
+        </div>
+
+        <div class="title-row">
+          <div>
+            <h1 class="page-title">New Arrivals</h1>
+            <p class="page-subtitle">Fresh drops curated for your closet.</p>
+          </div>
+
+          <div class="controls">
+            <button class="pill" type="button">Filter</button>
+            <label class="select" aria-label="Sort">
+              <span class="select-label">Sort</span>
+              <select id="sortSelect">
+                <option value="featured">Featured</option>
+                <option value="newest">Newest</option>
+                <option value="name-asc">Name (A–Z)</option>
+                <option value="name-desc">Name (Z–A)</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <section class="collection" aria-label="Items">
+        <div class="results-meta" id="resultsMeta" aria-live="polite"></div>
+        <div class="grid" id="productGrid" aria-live="polite"></div>
+
+        <div class="pagination" aria-label="Pagination">
+          <button id="prevBtn" class="page-btn" type="button">Previous</button>
+          <div id="pageNumbers" class="page-numbers" role="navigation" aria-label="Page numbers"></div>
+          <button id="nextBtn" class="page-btn" type="button">Next</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>© <span id="year"></span> Redress</div>
+        <div class="footer-links">
+          <a href="#">Help</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
