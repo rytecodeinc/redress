@@ -291,6 +291,54 @@ select {
   letter-spacing: -0.01em;
 }
 
+.ns-flex {
+  display: flex;
+}
+
+.ns-flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.ns-items-center {
+  align-items: center;
+}
+
+.ns-controls-row {
+  margin: 0 0 1.2rem;
+}
+
+.ns-grid-controls {
+  justify-content: flex-end;
+  gap: 1.2rem;
+}
+
+.ns-grid-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0.4rem;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.ns-grid-toggle:hover svg {
+  opacity: 0.7;
+}
+
+.ns-grid-toggle:focus-visible {
+  outline: 2px solid rgba(57, 57, 57, 0.35);
+  outline-offset: 4px;
+}
+
+.ns-grid-toggle[aria-pressed="true"] svg {
+  opacity: 1;
+}
+
+.ns-grid-toggle[aria-pressed="false"] svg {
+  opacity: 0.55;
+}
+
 /* Cult Gaia-like product grid sizing/spacing (as provided) */
 #ns-product-grid {
   display: grid;
@@ -310,6 +358,13 @@ select {
     row-gap: 1.2rem;
     column-gap: 3.2rem;
   }
+
+  /* 9-column “gallery” option */
+  #ns-product-grid[data-layout="gallery"] {
+    grid-template-columns: repeat(9, 1fr);
+    column-gap: 1.6rem;
+    row-gap: 1.2rem;
+  }
 }
 
 @media (min-width: 1240px) {
@@ -321,6 +376,12 @@ select {
 
   /* Keep the “showing X–Y of Z” aligned with the grid width */
   .results-meta {
+    width: calc(75% - 3.2rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ns-controls-row {
     width: calc(75% - 3.2rem);
     margin-left: auto;
     margin-right: auto;
@@ -352,6 +413,11 @@ select {
   display: block;
   /* Cult Gaia product tiles are roughly 2:3 (w:h) */
   padding-top: 150%;
+}
+
+/* In 9-col gallery mode, use squarer tiles */
+#ns-product-grid[data-layout="gallery"] .card-media::before {
+  padding-top: 100%;
 }
 
 .color-block {

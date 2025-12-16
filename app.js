@@ -62,6 +62,7 @@ const PRODUCTS = [
 ];
 
 const PAGE_SIZE = 24;
+const LAYOUT_KEY = "ns:gridLayout";
 
 function byId(id) {
   return document.getElementById(id);
@@ -196,11 +197,35 @@ function main() {
   const nextBtn = byId("nextBtn");
   const pageNumbersEl = byId("pageNumbers");
   const sortSelect = byId("sortSelect");
+  const galleryBtn = document.querySelector(".ns-toggle-gallery");
+  const compactBtn = document.querySelector(".ns-toggle-compact");
 
   const allProducts = buildProductList(PRODUCTS);
 
   let sortMode = sortSelect.value;
   let sorted = applySort(allProducts, sortMode);
+
+  function setLayout(layout) {
+    const next = layout === "gallery" ? "gallery" : "compact";
+    gridEl.dataset.layout = next;
+    if (galleryBtn) galleryBtn.setAttribute("aria-pressed", String(next === "gallery"));
+    if (compactBtn) compactBtn.setAttribute("aria-pressed", String(next === "compact"));
+    try {
+      window.localStorage.setItem(LAYOUT_KEY, next);
+    } catch {
+      // ignore
+    }
+  }
+
+  function getInitialLayout() {
+    try {
+      const saved = window.localStorage.getItem(LAYOUT_KEY);
+      if (saved === "gallery" || saved === "compact") return saved;
+    } catch {
+      // ignore
+    }
+    return "compact";
+  }
 
   function render(page) {
     const totalPages = pageCount(sorted.length, PAGE_SIZE);
@@ -238,11 +263,15 @@ function main() {
     render(1);
   });
 
+  if (galleryBtn) galleryBtn.addEventListener("click", () => setLayout("gallery"));
+  if (compactBtn) compactBtn.addEventListener("click", () => setLayout("compact"));
+
   window.addEventListener("popstate", () => {
     render(getPageFromUrl());
   });
 
   byId("year").textContent = String(new Date().getFullYear());
+  setLayout(getInitialLayout());
   render(getPageFromUrl());
 }
 
