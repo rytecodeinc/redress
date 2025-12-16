@@ -521,6 +521,29 @@ select {
   padding-top: 150%;
 }
 
+/* In 9-col gallery view, browsers can distribute leftover pixels unevenly
+   across tracks (some columns become 1px wider), which makes padding-top
+   aspect-ratio boxes differ by 1–2px. Force a single computed height for
+   all tiles so every card matches exactly. */
+@media (min-width: 768px) {
+  #ns-product-grid[data-layout="gallery"],
+  .ob-grid[data-layout="gallery"] {
+    --ns-gallery-cols: 9;
+    --ns-gallery-col-gap: 1.6rem;
+    --ns-gallery-tile-w: calc(
+      (100% - (var(--ns-gallery-cols) - 1) * var(--ns-gallery-col-gap)) /
+        var(--ns-gallery-cols)
+    );
+    --ns-gallery-tile-h: calc(var(--ns-gallery-tile-w) * 1.5);
+  }
+
+  #ns-product-grid[data-layout="gallery"] .card-media::before,
+  .ob-grid[data-layout="gallery"] .card-media::before {
+    padding-top: 0;
+    height: var(--ns-gallery-tile-h);
+  }
+}
+
 .color-block {
   position: absolute;
   inset: 0;
