@@ -70,6 +70,11 @@ a:hover {
   border-bottom: 1px solid var(--soft);
 }
 
+/* Outfit Builder: do not use a sticky header */
+body.page-outfit-builder .site-header {
+  position: static;
+}
+
 .header-inner {
   max-width: 100%;
   margin: 0 auto;
@@ -555,6 +560,35 @@ select {
   display: block;
 }
 
+/* Outfit Builder: full-height layout with internal scrolling */
+body.page-outfit-builder {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body.page-outfit-builder .page.ob-page {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body.page-outfit-builder .page-top.ob-top {
+  flex: 0 0 auto;
+}
+
+body.page-outfit-builder .ob-layout {
+  flex: 1;
+  min-height: 0;
+}
+
+body.page-outfit-builder .ob-main {
+  height: 100%;
+  min-height: 0;
+}
+
 .ob-filters-bar {
   border: 1px solid var(--soft);
   background: rgba(255, 255, 255, 0.6);
@@ -654,6 +688,15 @@ select {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2.4rem;
+  height: 100%;
+  min-height: 0;
+}
+
+.ob-grid-panel,
+.ob-canvas-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .ob-grid {
@@ -700,10 +743,19 @@ select {
 
 .ob-canvas {
   position: relative;
-  height: 56rem;
+  flex: 1;
+  min-height: 0;
   background: rgba(255, 254, 248, 0.85);
   border: 1px dashed rgba(57, 57, 57, 0.25);
   overflow: hidden;
+}
+
+/* Items grid should scroll and never overflow viewport height */
+body.page-outfit-builder .ob-grid {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
 }
 
 .ob-canvas-item {
@@ -757,12 +809,28 @@ select {
   text-overflow: ellipsis;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 860px) {
+  /* On narrower screens, allow natural page scrolling */
+  body.page-outfit-builder {
+    height: auto;
+    overflow: auto;
+  }
+
+  body.page-outfit-builder .page.ob-page {
+    display: block;
+  }
+
   .ob-panels {
     grid-template-columns: 1fr;
+    height: auto;
   }
+
   .ob-canvas {
-    height: 46rem;
+    min-height: 46rem;
+  }
+
+  body.page-outfit-builder .ob-grid {
+    overflow: visible;
   }
 }
 
