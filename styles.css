@@ -546,6 +546,13 @@ select {
   margin-bottom: 1.2rem;
 }
 
+.ob-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  min-width: 0;
+}
+
 .ob-panels {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -554,8 +561,20 @@ select {
 
 .ob-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.2rem 1.6rem;
+}
+
+@media (min-width: 768px) {
+  .ob-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .ob-grid[data-layout="gallery"] {
+    grid-template-columns: repeat(9, 1fr);
+    column-gap: 1.6rem;
+    row-gap: 1.2rem;
+  }
 }
 
 .ob-card {
@@ -644,9 +663,6 @@ select {
   .ob-sidebar {
     position: relative;
     top: auto;
-  }
-  .ob-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

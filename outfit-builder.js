@@ -19,6 +19,8 @@ const OUTFIT_ITEMS = [
   { id: "a3", name: "Chain Necklace", category: "Accessories", color: "#d9d2c7" },
 ];
 
+const OB_LAYOUT_KEY = "ob:gridLayout";
+
 function qs(sel, root = document) {
   return root.querySelector(sel);
 }
@@ -104,10 +106,34 @@ function main() {
   const clearFiltersBtn = qs(".ob-clear-filters");
   const clearCanvasBtn = qs(".ob-clear-canvas");
   const deleteSelectedBtn = qs(".ob-delete-selected");
+  const galleryBtn = qs(".ob-toggle-gallery");
+  const compactBtn = qs(".ob-toggle-compact");
 
   let filtered = [...OUTFIT_ITEMS];
   let selectedCanvasItem = null;
   let zCounter = 1;
+
+  function setLayout(layout) {
+    const next = layout === "gallery" ? "gallery" : "compact";
+    gridEl.dataset.layout = next;
+    if (galleryBtn) galleryBtn.setAttribute("aria-pressed", String(next === "gallery"));
+    if (compactBtn) compactBtn.setAttribute("aria-pressed", String(next === "compact"));
+    try {
+      window.localStorage.setItem(OB_LAYOUT_KEY, next);
+    } catch {
+      // ignore
+    }
+  }
+
+  function getInitialLayout() {
+    try {
+      const saved = window.localStorage.getItem(OB_LAYOUT_KEY);
+      if (saved === "gallery" || saved === "compact") return saved;
+    } catch {
+      // ignore
+    }
+    return "compact";
+  }
 
   function setSelected(el) {
     if (selectedCanvasItem) selectedCanvasItem.classList.remove("is-selected");
@@ -260,6 +286,10 @@ function main() {
     setSelected(null);
   });
 
+  if (galleryBtn) galleryBtn.addEventListener("click", () => setLayout("gallery"));
+  if (compactBtn) compactBtn.addEventListener("click", () => setLayout("compact"));
+
+  setLayout(getInitialLayout());
   rerender();
 }
 
