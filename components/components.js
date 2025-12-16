@@ -1,7 +1,8 @@
 class RedressHeader extends HTMLElement {
   connectedCallback() {
     const active = (this.getAttribute("active") || "").trim();
-    const base = getBasePath();
+    const basePath = getBasePath();
+    const baseUrl = new URL(basePath, window.location.origin).toString();
 
     this.innerHTML = `
       <header class="site-header">
@@ -15,9 +16,9 @@ class RedressHeader extends HTMLElement {
           </div>
 
           <nav class="nav" aria-label="Primary">
-            <a class="nav-link" data-nav="home" href="${base}">Home</a>
-            <a class="nav-link" data-nav="closet" href="${base}closet/">Closet</a>
-            <a class="nav-link" data-nav="outfit-builder" href="${base}outfit-builder.html">Outfit Builder</a>
+            <a class="nav-link" data-nav="home" href="${baseUrl}">Home</a>
+            <a class="nav-link" data-nav="closet" href="${new URL("closet/", baseUrl).toString()}">Closet</a>
+            <a class="nav-link" data-nav="outfit-builder" href="${new URL("outfit-builder.html", baseUrl).toString()}">Outfit Builder</a>
             <a class="nav-link" data-nav="resale" href="#">Resale</a>
           </nav>
 
