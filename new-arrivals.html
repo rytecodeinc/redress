@@ -37,42 +37,44 @@
 
           <div class="ob-header-spacer" aria-hidden="true"></div>
         </div>
-
-        <div class="page-actions-row">
-          <button class="pill" type="button">Filter</button>
-          <label class="select" aria-label="Sort">
-            <span class="select-label">Sort</span>
-            <select id="sortSelect">
-              <option value="featured">Featured</option>
-              <option value="newest">Newest</option>
-              <option value="name-asc">Name (A–Z)</option>
-              <option value="name-desc">Name (Z–A)</option>
-            </select>
-          </label>
-        </div>
       </div>
 
       <section class="collection" aria-label="Items">
         <div class="ns-controls-row">
-          <div role="group" aria-label="Layout options" class="ns-grid-controls ns-flex ns-flex-nowrap ns-items-center">
-            <button aria-pressed="false" aria-label="Set to gallery layout" class="ns-grid-toggle ns-toggle-gallery" type="button">
-              <svg aria-hidden="true" role="presentation" width="16.8" height="10.8" viewBox="0 0 14 10" fill="#bac8c3" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 .5h4v4H0zM0 5.5h4v4H0zM5 .5h4v4H5zM5 5.5h4v4H5zM10 .5h4v4h-4zM10 5.5h4v4h-4z"></path>
-              </svg>
-            </button>
-            <button aria-pressed="true" aria-label="Set to 4 column layout" class="ns-grid-toggle ns-toggle-compact" type="button">
-              <svg aria-hidden="true" role="presentation" xmlns="http://www.w3.org/2000/svg" width="20.4" height="12" viewBox="0 0 88 58" fill="#bac8c3">
-                <g clip-path="url(#ns-clip-001)">
-                  <path d="M20 0H0V58H20V0Z"></path>
-                  <path d="M43 0H22V58H43V0Z"></path>
-                  <path d="M45 0H65V58H45V0Z"></path>
-                  <path d="M88 0H67V58H88V0Z"></path>
-                </g>
-                <defs>
-                  <clipPath id="ns-clip-001"><rect width="88" height="58" fill="white"></rect></clipPath>
-                </defs>
-              </svg>
-            </button>
+          <div role="group" aria-label="Collection controls" class="ns-controls ns-flex ns-flex-nowrap ns-items-center">
+            <div role="group" aria-label="Filter and sort" class="ns-actions ns-flex ns-flex-nowrap ns-items-center">
+              <button class="pill" type="button">Filter</button>
+              <label class="select" aria-label="Sort">
+                <span class="select-label">Sort</span>
+                <select id="sortSelect">
+                  <option value="featured">Featured</option>
+                  <option value="newest">Newest</option>
+                  <option value="name-asc">Name (A–Z)</option>
+                  <option value="name-desc">Name (Z–A)</option>
+                </select>
+              </label>
+            </div>
+
+            <div role="group" aria-label="Layout options" class="ns-grid-controls ns-flex ns-flex-nowrap ns-items-center">
+              <button aria-pressed="false" aria-label="Set to gallery layout" class="ns-grid-toggle ns-toggle-gallery" type="button">
+                <svg aria-hidden="true" role="presentation" width="16.8" height="10.8" viewBox="0 0 14 10" fill="#bac8c3" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 .5h4v4H0zM0 5.5h4v4H0zM5 .5h4v4H5zM5 5.5h4v4H5zM10 .5h4v4h-4zM10 5.5h4v4h-4z"></path>
+                </svg>
+              </button>
+              <button aria-pressed="true" aria-label="Set to 4 column layout" class="ns-grid-toggle ns-toggle-compact" type="button">
+                <svg aria-hidden="true" role="presentation" xmlns="http://www.w3.org/2000/svg" width="20.4" height="12" viewBox="0 0 88 58" fill="#bac8c3">
+                  <g clip-path="url(#ns-clip-001)">
+                    <path d="M20 0H0V58H20V0Z"></path>
+                    <path d="M43 0H22V58H43V0Z"></path>
+                    <path d="M45 0H65V58H45V0Z"></path>
+                    <path d="M88 0H67V58H88V0Z"></path>
+                  </g>
+                  <defs>
+                    <clipPath id="ns-clip-001"><rect width="88" height="58" fill="white"></rect></clipPath>
+                  </defs>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 

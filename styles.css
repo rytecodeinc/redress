@@ -390,6 +390,18 @@ select {
 
 .ns-controls-row {
   margin: 0 0 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.ns-controls {
+  width: 100%;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.ns-actions {
+  gap: 1rem;
 }
 
 .ns-grid-controls {
