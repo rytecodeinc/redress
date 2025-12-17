@@ -31,8 +31,14 @@ body {
   color: var(--ink);
   background: var(--bg);
   font-size: 1.1rem;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+redress-page-header {
+  display: block;
+  max-width: 100%;
 }
 
 a {
