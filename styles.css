@@ -477,22 +477,15 @@ select {
 
 @media (min-width: 1240px) {
   #ns-product-grid {
-    width: calc(75% - 3.2rem);
     padding: 0 0 9.6rem;
-    margin: 0 auto;
   }
 
-  /* Keep the “showing X–Y of Z” aligned with the grid width */
-  .results-meta {
-    width: calc(75% - 3.2rem);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
+  /* Keep Closet aligned to the natural .page width */
+  .results-meta,
   .ns-controls-row {
-    width: calc(75% - 3.2rem);
-    margin-left: auto;
-    margin-right: auto;
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   /* Outfit Builder meta should be left-aligned, not centered */
