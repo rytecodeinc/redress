@@ -589,20 +589,6 @@ body.page-outfit-builder .ob-main {
   min-height: 0;
 }
 
-/* Closet: match Outfit Builder's responsive page sizing behavior */
-body.page-closet {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-body.page-closet .page {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
 .ob-filters-bar {
   border: 1px solid var(--soft);
   background: rgba(255, 255, 255, 0.6);
