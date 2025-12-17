@@ -31,14 +31,8 @@ body {
   color: var(--ink);
   background: var(--bg);
   font-size: 1.1rem;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-redress-page-header {
-  display: block;
-  max-width: 100%;
 }
 
 a {
@@ -593,6 +587,20 @@ body.page-outfit-builder .ob-layout {
 body.page-outfit-builder .ob-main {
   height: 100%;
   min-height: 0;
+}
+
+/* Closet: match Outfit Builder's responsive page sizing behavior */
+body.page-closet {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.page-closet .page {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .ob-filters-bar {
