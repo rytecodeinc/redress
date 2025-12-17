@@ -18,30 +18,17 @@
     <redress-header active="home"></redress-header>
 
     <main id="main" class="page">
-      <div class="page-top">
-        <div class="page-header-row">
-          <div class="breadcrumbs-row page-breadcrumb-col">
-            <div class="breadcrumbs" aria-label="Breadcrumb">
-              <span aria-current="page">Home</span>
-            </div>
-          </div>
+      <redress-page-header
+        active="home"
+        title="Welcome back"
+        crumb="Home"
+        subtitle="Placeholder homepage copy — this will become your logged-in dashboard (closet stats, recent outfits, saved looks, and suggested edits)."
+        home-link="false"
+      ></redress-page-header>
 
-          <div class="title-row page-title-row">
-            <div>
-              <h1 class="page-title">Welcome back</h1>
-              <p class="page-subtitle">
-                Placeholder homepage copy — this will become your logged-in dashboard (closet stats, recent outfits, saved looks, and suggested edits).
-              </p>
-            </div>
-          </div>
-
-          <div class="page-header-spacer" aria-hidden="true"></div>
-        </div>
-
-        <div class="page-actions-row">
+      <div class="page-actions-row">
           <a class="pill" href="./closet/">Open Closet</a>
           <a class="pill" href="./outfit-builder.html">Open Outfit Builder</a>
-        </div>
       </div>
 
       <section class="home-panels" aria-label="Homepage placeholders">

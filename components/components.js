@@ -69,8 +69,57 @@ class RedressFooter extends HTMLElement {
   }
 }
 
+class RedressPageHeader extends HTMLElement {
+  connectedCallback() {
+    const active = (this.getAttribute("active") || "").trim();
+    const title = this.getAttribute("title") || "";
+    const subtitle = this.getAttribute("subtitle") || "";
+    const crumb = this.getAttribute("crumb") || title || "";
+    const showHomeLink = this.getAttribute("home-link") !== "false";
+
+    const basePath = getBasePath();
+    const baseUrl = new URL(basePath, window.location.origin).toString();
+
+    const crumbsHtml = showHomeLink
+      ? `
+        <a href="${baseUrl}">Home</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">${escapeHtml(crumb)}</span>
+      `
+      : `
+        <span aria-current="page">${escapeHtml(crumb || "Home")}</span>
+      `;
+
+    // Reuse the Outfit Builder header structure/classes everywhere.
+    this.innerHTML = `
+      <div class="page-top ob-top">
+        <div class="ob-header-row">
+          <div class="breadcrumbs-row ob-breadcrumb-row">
+            <div class="breadcrumbs" aria-label="Breadcrumb">
+              ${crumbsHtml}
+            </div>
+          </div>
+
+          <div class="title-row ob-title-row">
+            <div>
+              <h1 class="page-title">${escapeHtml(title)}</h1>
+              <p class="page-subtitle">${escapeHtml(subtitle)}</p>
+            </div>
+          </div>
+
+          <div class="ob-header-spacer" aria-hidden="true"></div>
+        </div>
+      </div>
+    `;
+
+    // Optional: keep active attribute for future use/inspection.
+    this.dataset.active = active;
+  }
+}
+
 customElements.define("redress-header", RedressHeader);
 customElements.define("redress-footer", RedressFooter);
+customElements.define("redress-page-header", RedressPageHeader);
 
 function getBasePath() {
   // Supports GitHub Pages project sites (e.g. /Redress/...) and local root (/).
@@ -80,5 +129,14 @@ function getBasePath() {
     return `/${segments[0]}/`;
   }
   return "/";
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
