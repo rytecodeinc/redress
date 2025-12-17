@@ -35,10 +35,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Shared page shell: prevent horizontal overflow stretching headers */
-body.redress-app {
-  overflow-x: hidden;
-}
+/* Shared page shell */
+body.redress-app {}
 
 a {
   color: inherit;
@@ -381,17 +379,6 @@ select {
 }
 
 /* Home marketing sections */
-.home-main {
-  width: 100%;
-  margin: 0 auto;
-}
-
-@media (min-width: 1240px) {
-  .home-main {
-    width: 75%;
-  }
-}
-
 .home-hero {
   margin-top: 2.2rem;
   border: 1px solid var(--soft);
@@ -648,22 +635,15 @@ select {
 
 @media (min-width: 1240px) {
   #ns-product-grid {
-    width: calc(75% - 3.2rem);
     padding: 0 0 9.6rem;
-    margin: 0 auto;
   }
 
-  /* Keep the “showing X–Y of Z” aligned with the grid width */
-  .results-meta {
-    width: calc(75% - 3.2rem);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
+  /* Keep grid/controls aligned to the natural .page width */
+  .results-meta,
   .ns-controls-row {
-    width: calc(75% - 3.2rem);
-    margin-left: auto;
-    margin-right: auto;
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   /* Outfit Builder meta should be left-aligned, not centered */
@@ -728,10 +708,6 @@ select {
 .card:nth-child(8n + 8) { --tile: #e5ddd1; }
 
 /* Outfit Builder */
-.ob-page {
-  max-width: 100%;
-}
-
 .ob-layout {
   margin-top: 2.0rem;
   display: block;
@@ -745,7 +721,7 @@ body.page-outfit-builder {
   overflow: hidden;
 }
 
-body.page-outfit-builder .page.ob-page {
+body.page-outfit-builder .page {
   flex: 1;
   min-height: 0;
   display: flex;
@@ -1066,7 +1042,7 @@ body.page-outfit-builder .ob-grid {
     overflow: auto;
   }
 
-  body.page-outfit-builder .page.ob-page {
+  body.page-outfit-builder .page {
     display: block;
   }
 
