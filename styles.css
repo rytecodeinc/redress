@@ -35,6 +35,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Shared page shell: prevent horizontal overflow stretching headers */
+body.redress-app {
+  overflow-x: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;
