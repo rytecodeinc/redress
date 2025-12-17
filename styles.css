@@ -342,7 +342,8 @@ select {
 }
 
 .collection {
-  margin-top: 26px;
+  /* Match Outfit Builder section spacing */
+  margin-top: 2rem;
 }
 
 .home-panels {
