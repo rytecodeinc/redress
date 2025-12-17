@@ -764,6 +764,7 @@ body.page-outfit-builder .ob-grid {
   user-select: none;
   touch-action: none;
   cursor: grab;
+  overflow: visible; /* allow controls to sit outside border */
 }
 
 .ob-canvas-item-delete {
@@ -790,6 +791,40 @@ body.page-outfit-builder .ob-grid {
 .ob-canvas-item.is-selected .ob-canvas-item-delete {
   opacity: 1;
   pointer-events: auto;
+}
+
+.ob-canvas-item-size-controls {
+  position: absolute;
+  right: -0.2rem;
+  bottom: -3.0rem;
+  display: flex;
+  gap: 0.6rem;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.ob-canvas-item.is-selected .ob-canvas-item-size-controls {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ob-canvas-item-size-btn {
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid rgba(57, 57, 57, 0.35);
+  background: rgba(255, 254, 248, 0.92);
+  color: rgba(57, 57, 57, 0.9);
+  font-size: 1.6rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.ob-canvas-item-size-btn:hover {
+  background: rgba(255, 254, 248, 1);
+  border-color: rgba(57, 57, 57, 0.5);
 }
 
 .ob-canvas-item-delete:hover {

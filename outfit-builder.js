@@ -92,6 +92,10 @@ function makeCanvasItem({ name, color }, { x, y }) {
     </div>
     <div class="ob-canvas-item-label">${escapeHtml(name)}</div>
     <button type="button" class="ob-canvas-item-delete" aria-label="Remove item" tabindex="-1">×</button>
+    <div class="ob-canvas-item-size-controls" aria-hidden="true">
+      <button type="button" class="ob-canvas-item-size-btn ob-size-minus" aria-label="Decrease size" tabindex="-1">−</button>
+      <button type="button" class="ob-canvas-item-size-btn ob-size-plus" aria-label="Increase size" tabindex="-1">+</button>
+    </div>
   `;
   return el;
 }
@@ -169,6 +173,24 @@ function main() {
     setSelected(itemEl);
   }
 
+  function resizeCanvasItem(itemEl, deltaPx) {
+    const canvasRect = canvasEl.getBoundingClientRect();
+    const itemRect = itemEl.getBoundingClientRect();
+
+    const currentW = Number.parseFloat(itemEl.style.width || "") || itemRect.width;
+    const nextW = clamp(currentW + deltaPx, 84, 220);
+    itemEl.style.width = `${nextW}px`;
+
+    // Keep the item inside the canvas after resizing.
+    const nextRect = itemEl.getBoundingClientRect();
+    const currentLeft = Number.parseFloat(itemEl.style.left || "0");
+    const currentTop = Number.parseFloat(itemEl.style.top || "0");
+    const maxLeft = Math.max(0, canvasRect.width - nextRect.width);
+    const maxTop = Math.max(0, canvasRect.height - nextRect.height);
+    itemEl.style.left = `${clamp(currentLeft, 0, maxLeft)}px`;
+    itemEl.style.top = `${clamp(currentTop, 0, maxTop)}px`;
+  }
+
   // Grid: click to add (center-ish), drag to canvas.
   gridEl.addEventListener("click", (e) => {
     const btn = e.target.closest(".ob-card");
@@ -212,7 +234,11 @@ function main() {
   // Canvas selection.
   canvasEl.addEventListener("pointerdown", (e) => {
     // If the delete button was pressed, don’t treat it as a selection drag start.
-    if (e.target && e.target.closest(".ob-canvas-item-delete")) return;
+    if (
+      e.target &&
+      (e.target.closest(".ob-canvas-item-delete") || e.target.closest(".ob-canvas-item-size-btn"))
+    )
+      return;
     const item = e.target.closest(".ob-canvas-item");
     if (!item) {
       setSelected(null);
@@ -221,22 +247,38 @@ function main() {
     setSelected(item);
   });
 
-  // Delete button on selected item.
+  // Delete / resize buttons on selected item.
   canvasEl.addEventListener("click", (e) => {
-    const btn = e.target.closest(".ob-canvas-item-delete");
-    if (!btn) return;
-    e.preventDefault();
-    e.stopPropagation();
-    const item = btn.closest(".ob-canvas-item");
-    if (!item) return;
-    item.remove();
-    if (selectedCanvasItem === item) setSelected(null);
+    const deleteBtn = e.target.closest(".ob-canvas-item-delete");
+    if (deleteBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const item = deleteBtn.closest(".ob-canvas-item");
+      if (!item) return;
+      item.remove();
+      if (selectedCanvasItem === item) setSelected(null);
+      return;
+    }
+
+    const sizeBtn = e.target.closest(".ob-canvas-item-size-btn");
+    if (sizeBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const item = sizeBtn.closest(".ob-canvas-item");
+      if (!item) return;
+      const delta = sizeBtn.classList.contains("ob-size-plus") ? 14 : -14;
+      resizeCanvasItem(item, delta);
+    }
   });
 
   // Drag items around inside canvas via pointer events.
   let dragState = null;
   canvasEl.addEventListener("pointerdown", (e) => {
-    if (e.target && e.target.closest(".ob-canvas-item-delete")) return;
+    if (
+      e.target &&
+      (e.target.closest(".ob-canvas-item-delete") || e.target.closest(".ob-canvas-item-size-btn"))
+    )
+      return;
     const item = e.target.closest(".ob-canvas-item");
     if (!item) return;
     item.setPointerCapture(e.pointerId);
