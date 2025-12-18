@@ -61,7 +61,14 @@
 
         <div class="demo-grid" role="group" aria-label="Outfit demo carousels">
           <div class="demo-row">
-            <div class="demo-row-label">Top</div>
+            <div class="demo-row-head" data-demo-row="tops">
+              <button class="demo-drag-handle" type="button" draggable="true" aria-label="Drag to reorder Top row" title="Drag to reorder">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 7h2v2H9V7zm4 0h2v2h-2V7zM9 11h2v2H9v-2zm4 0h2v2h-2v-2zM9 15h2v2H9v-2zm4 0h2v2h-2v-2z" fill="currentColor"></path>
+                </svg>
+              </button>
+              <div class="demo-row-label">Top</div>
+            </div>
             <div class="demo-carousel" data-demo-carousel="tops" aria-label="Tops carousel">
               <button class="demo-arrow" type="button" data-demo-prev aria-label="Previous top">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -90,7 +97,14 @@
           </div>
 
           <div class="demo-row">
-            <div class="demo-row-label">Pants</div>
+            <div class="demo-row-head" data-demo-row="pants">
+              <button class="demo-drag-handle" type="button" draggable="true" aria-label="Drag to reorder Pants row" title="Drag to reorder">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 7h2v2H9V7zm4 0h2v2h-2V7zM9 11h2v2H9v-2zm4 0h2v2h-2v-2zM9 15h2v2H9v-2zm4 0h2v2h-2v-2z" fill="currentColor"></path>
+                </svg>
+              </button>
+              <div class="demo-row-label">Pants</div>
+            </div>
             <div class="demo-carousel" data-demo-carousel="pants" aria-label="Pants carousel">
               <button class="demo-arrow" type="button" data-demo-prev aria-label="Previous pants">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -119,7 +133,14 @@
           </div>
 
           <div class="demo-row">
-            <div class="demo-row-label">Shoes</div>
+            <div class="demo-row-head" data-demo-row="shoes">
+              <button class="demo-drag-handle" type="button" draggable="true" aria-label="Drag to reorder Shoes row" title="Drag to reorder">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 7h2v2H9V7zm4 0h2v2h-2V7zM9 11h2v2H9v-2zm4 0h2v2h-2v-2zM9 15h2v2H9v-2zm4 0h2v2h-2v-2z" fill="currentColor"></path>
+                </svg>
+              </button>
+              <div class="demo-row-label">Shoes</div>
+            </div>
             <div class="demo-carousel" data-demo-carousel="shoes" aria-label="Shoes carousel">
               <button class="demo-arrow" type="button" data-demo-prev aria-label="Previous shoes">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -216,8 +237,53 @@
         const assets = window.REDRESS_DEMO_ASSETS;
         if (!assets) return;
 
+        const gridEl = document.querySelector(".demo-grid");
+        const ORDER_KEY = "demo:rowOrder";
+
         function mod(n, m) {
           return ((n % m) + m) % m;
+        }
+
+        function getRowKey(rowEl) {
+          const head = rowEl.querySelector("[data-demo-row]");
+          return head ? head.getAttribute("data-demo-row") || "" : "";
+        }
+
+        function saveOrder() {
+          if (!gridEl) return;
+          const order = Array.from(gridEl.querySelectorAll(".demo-row"))
+            .map((row) => getRowKey(row))
+            .filter(Boolean);
+          try {
+            window.localStorage.setItem(ORDER_KEY, JSON.stringify(order));
+          } catch {
+            // ignore
+          }
+        }
+
+        function loadOrder() {
+          if (!gridEl) return;
+          let order = null;
+          try {
+            order = JSON.parse(window.localStorage.getItem(ORDER_KEY) || "null");
+          } catch {
+            order = null;
+          }
+          if (!Array.isArray(order) || order.length < 2) return;
+
+          const rows = Array.from(gridEl.querySelectorAll(".demo-row"));
+          const byKey = new Map(rows.map((r) => [getRowKey(r), r]));
+          const fragment = document.createDocumentFragment();
+
+          for (const key of order) {
+            const row = byKey.get(key);
+            if (row) fragment.appendChild(row);
+          }
+          // Append any missing rows at the end (future-proofing).
+          for (const row of rows) {
+            if (!fragment.contains(row)) fragment.appendChild(row);
+          }
+          gridEl.appendChild(fragment);
         }
 
         function setupCarousel(root) {
@@ -286,6 +352,62 @@
           render();
         }
 
+        function setupReorder() {
+          if (!gridEl) return;
+          loadOrder();
+
+          let draggedRow = null;
+
+          gridEl.addEventListener("dragstart", (e) => {
+            const handle = e.target && e.target.closest ? e.target.closest(".demo-drag-handle") : null;
+            if (!handle) return;
+            const row = handle.closest(".demo-row");
+            if (!row) return;
+            draggedRow = row;
+            row.classList.add("is-dragging");
+            e.dataTransfer.effectAllowed = "move";
+            try {
+              e.dataTransfer.setData("text/plain", getRowKey(row) || "row");
+            } catch {
+              // ignore
+            }
+          });
+
+          gridEl.addEventListener("dragend", () => {
+            if (draggedRow) draggedRow.classList.remove("is-dragging");
+            draggedRow = null;
+            gridEl.querySelectorAll(".is-drop-target").forEach((el) => el.classList.remove("is-drop-target"));
+          });
+
+          gridEl.addEventListener("dragover", (e) => {
+            if (!draggedRow) return;
+            const targetRow = e.target && e.target.closest ? e.target.closest(".demo-row") : null;
+            if (!targetRow || targetRow === draggedRow) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+
+            const rect = targetRow.getBoundingClientRect();
+            const before = e.clientY < rect.top + rect.height / 2;
+            targetRow.classList.add("is-drop-target");
+            const ref = before ? targetRow : targetRow.nextSibling;
+            if (ref !== draggedRow && draggedRow.nextSibling !== ref) {
+              gridEl.insertBefore(draggedRow, ref);
+            }
+          });
+
+          gridEl.addEventListener("dragleave", (e) => {
+            const targetRow = e.target && e.target.closest ? e.target.closest(".demo-row") : null;
+            if (targetRow) targetRow.classList.remove("is-drop-target");
+          });
+
+          gridEl.addEventListener("drop", (e) => {
+            if (!draggedRow) return;
+            e.preventDefault();
+            saveOrder();
+          });
+        }
+
+        setupReorder();
         document.querySelectorAll("[data-demo-carousel]").forEach((el) => setupCarousel(el));
       })();
     </script>

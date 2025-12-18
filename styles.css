@@ -573,6 +573,47 @@ select {
   gap: 1.2rem;
 }
 
+.demo-row.is-dragging {
+  opacity: 0.85;
+}
+
+.demo-row.is-drop-target .demo-window {
+  border-color: rgba(57, 57, 57, 0.35);
+}
+
+.demo-row-head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.demo-drag-handle {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--soft);
+  background: white;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  cursor: grab;
+  color: rgba(18, 18, 18, 0.8);
+  flex: 0 0 auto;
+}
+
+.demo-drag-handle:active {
+  cursor: grabbing;
+}
+
+.demo-drag-handle:hover {
+  border-color: var(--border);
+}
+
+.demo-drag-handle svg {
+  width: 16px;
+  height: 16px;
+}
+
 .demo-row-label {
   font-size: 1.2rem;
   text-transform: uppercase;
