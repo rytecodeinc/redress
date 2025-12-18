@@ -85,8 +85,19 @@ function buildProductList(names) {
   return names.map((name, idx) => {
     const id = idx + 1;
     const tag = idx % 7 === 0 ? "Just In" : idx % 11 === 0 ? "Trending" : "New";
-    return { id, name, tag };
+    const dollars = 198 + (idx % 23) * 40 + (idx % 3) * 10;
+    const price = new Intl.NumberFormat("en-US").format(dollars);
+    return { id, name, tag, handle: `${slugify(name)}-${id}`, price };
   });
+}
+
+function slugify(str) {
+  return String(str)
+    .toLowerCase()
+    .trim()
+    .replaceAll(/['"]/g, "")
+    .replaceAll(/[^a-z0-9]+/g, "-")
+    .replaceAll(/(^-|-$)/g, "");
 }
 
 function applySort(items, sortMode) {
@@ -133,16 +144,26 @@ function renderGrid(gridEl, items) {
   gridEl.innerHTML = items
     .map(
       (p) => `
-      <li class="card ns-product" aria-label="Product ${escapeHtml(p.name)}">
-        <a class="ns-product-link" href="#" aria-label="${escapeHtml(p.name)}">
-          <div class="card-media ns-product-media">
-            <div class="color-block" aria-hidden="true"></div>
-          </div>
-          <div class="ns-product-info">
-            <div class="card-meta ns-product-tag">${escapeHtml(p.tag)}</div>
-            <div class="card-title ns-product-title">${escapeHtml(p.name)}</div>
-          </div>
-        </a>
+      <li aria-label="Product ${escapeHtml(p.name)}" data-handle="${escapeHtml(p.handle)}" class="ns-product ns-block ns-w-100">
+        <div class="ns-product-media ns-block ns-w-100 ns-relative">
+          <a href="#" class="ns-product-link ns-block ns-w-100 ns-h-100" aria-label="${escapeHtml(p.name)}">
+            <div class="ns-main-media ns-absolute ns-block ns-w-100 ns-h-100" aria-hidden="true">
+              <div class="color-block" aria-hidden="true"></div>
+            </div>
+            <div class="ns-hover-media ns-absolute ns-block ns-w-100 ns-h-100" aria-hidden="true">
+              <div class="color-block" aria-hidden="true"></div>
+            </div>
+          </a>
+        </div>
+        <div data-nosto-element="product" class="ns-product-info">
+          <p class="ns-product-tag">${escapeHtml(p.tag)}</p>
+          <a href="#" class="ns-product-link" aria-label="${escapeHtml(p.name)}">
+            <h4 class="ns-product-title">${escapeHtml(p.name)}</h4>
+            <div class="ns-product-price-wrap">
+              <span aria-label="Price" class="ns-product-price">$${escapeHtml(p.price)}</span>
+            </div>
+          </a>
+        </div>
       </li>
     `,
     )
