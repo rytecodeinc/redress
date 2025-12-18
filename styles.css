@@ -35,8 +35,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Shared page shell */
-body.redress-app {}
+/* Shared page shell: prevent horizontal overflow stretching headers */
+body.redress-app {
+  overflow-x: hidden;
+}
 
 a {
   color: inherit;
@@ -549,27 +551,6 @@ select {
   display: flex;
 }
 
-.ns-block {
-  display: block;
-}
-
-.ns-w-100 {
-  width: 100%;
-}
-
-.ns-h-100 {
-  height: 100%;
-}
-
-.ns-relative {
-  position: relative;
-}
-
-.ns-absolute {
-  position: absolute;
-  inset: 0;
-}
-
 .ns-flex-nowrap {
   flex-wrap: nowrap;
 }
@@ -656,15 +637,22 @@ select {
 
 @media (min-width: 1240px) {
   #ns-product-grid {
+    width: calc(75% - 3.2rem);
     padding: 0 0 9.6rem;
+    margin: 0 auto;
   }
 
-  /* Keep grid/controls aligned to the natural .page width */
-  .results-meta,
+  /* Keep the “showing X–Y of Z” aligned with the grid width */
+  .results-meta {
+    width: calc(75% - 3.2rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .ns-controls-row {
-    width: auto;
-    margin-left: 0;
-    margin-right: 0;
+    width: calc(75% - 3.2rem);
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* Outfit Builder meta should be left-aligned, not centered */
@@ -706,68 +694,8 @@ select {
 }
 
 .ns-product-info {
-  padding: 1.6rem 0 2.8rem 0.5rem;
+  padding: 1.2rem 0 2.0rem 0;
   text-align: left;
-}
-
-.ns-product-tag {
-  font-size: 0.8rem;
-  font-weight: 700;
-  line-height: 1;
-  margin: 0 0 0.5rem;
-  text-transform: uppercase;
-  min-width: 0;
-}
-
-.ns-product-title {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-weight: 300;
-  padding: 0;
-  margin: 0;
-  min-width: 0;
-}
-
-.ns-product-price-wrap {
-  line-height: 1.5rem;
-}
-
-.ns-product-price {
-  font-weight: 300;
-  font-size: 1rem;
-  line-height: 120%;
-}
-
-.ns-product {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  min-width: 0;
-}
-
-.ns-product-media {
-  position: relative;
-  background: #efece7;
-  aspect-ratio: 2 / 3;
-  overflow: hidden;
-}
-
-.ns-main-media {
-  z-index: 0;
-}
-
-.ns-hover-media {
-  opacity: 0;
-  visibility: hidden;
-  z-index: 1;
-  transition: opacity 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95), visibility 0s 0.5s;
-  filter: brightness(1.05);
-}
-
-.ns-product-link:hover .ns-hover-media {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95), visibility 0s 0s;
 }
 
 .color-block {
@@ -777,18 +705,22 @@ select {
 }
 
 /* Alternating solid blocks (Cult Gaia-like alternating tones) */
-.ns-product:nth-child(4n + 1) { --tile: #c8c7ba; }
-.ns-product:nth-child(4n + 2) { --tile: #bac8c3; }
-.ns-product:nth-child(4n + 3) { --tile: #d9d2c7; }
-.ns-product:nth-child(4n + 4) { --tile: #e7dfd2; }
+.card:nth-child(4n + 1) { --tile: #c8c7ba; }
+.card:nth-child(4n + 2) { --tile: #bac8c3; }
+.card:nth-child(4n + 3) { --tile: #d9d2c7; }
+.card:nth-child(4n + 4) { --tile: #e7dfd2; }
 
 /* Slightly different cycle on odd rows, similar to “alternating” feel */
-.ns-product:nth-child(8n + 5) { --tile: #d7dcd2; }
-.ns-product:nth-child(8n + 6) { --tile: #cfd7d1; }
-.ns-product:nth-child(8n + 7) { --tile: #d8cfc5; }
-.ns-product:nth-child(8n + 8) { --tile: #e5ddd1; }
+.card:nth-child(8n + 5) { --tile: #d7dcd2; }
+.card:nth-child(8n + 6) { --tile: #cfd7d1; }
+.card:nth-child(8n + 7) { --tile: #d8cfc5; }
+.card:nth-child(8n + 8) { --tile: #e5ddd1; }
 
 /* Outfit Builder */
+.ob-page {
+  max-width: 100%;
+}
+
 .ob-layout {
   margin-top: 2.0rem;
   display: block;
@@ -802,7 +734,7 @@ body.page-outfit-builder {
   overflow: hidden;
 }
 
-body.page-outfit-builder .page {
+body.page-outfit-builder .page.ob-page {
   flex: 1;
   min-height: 0;
   display: flex;
@@ -1101,7 +1033,7 @@ body.page-outfit-builder .ob-grid {
 }
 
 /* Truncate item names in gallery view (never overflow one line) */
-#ns-product-grid[data-layout="gallery"] .ns-product-title,
+#ns-product-grid[data-layout="gallery"] .card-title,
 .ob-grid[data-layout="gallery"] .card-title {
   white-space: nowrap;
   overflow: hidden;
@@ -1109,7 +1041,7 @@ body.page-outfit-builder .ob-grid {
 }
 
 /* Also ensure meta can’t reflow and change dense grid packing */
-#ns-product-grid[data-layout="gallery"] .ns-product-tag,
+#ns-product-grid[data-layout="gallery"] .card-meta,
 .ob-grid[data-layout="gallery"] .card-meta {
   white-space: nowrap;
   overflow: hidden;
@@ -1123,7 +1055,7 @@ body.page-outfit-builder .ob-grid {
     overflow: auto;
   }
 
-  body.page-outfit-builder .page {
+  body.page-outfit-builder .page.ob-page {
     display: block;
   }
 
