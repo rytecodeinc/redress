@@ -271,7 +271,13 @@ body.page-outfit-builder .site-header {
   margin-top: 0;
   flex: 0 0 auto;
   text-align: center;
-  display: block;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.title-row.ob-title-row > div {
+  text-align: center;
 }
 
 .crumb-sep {
