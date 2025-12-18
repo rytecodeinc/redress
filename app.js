@@ -519,24 +519,7 @@ function main() {
   });
 
   if (isCloset) {
-    // Intercept clicks on closet cards to render SPA detail view.
-    gridEl.addEventListener("click", (e) => {
-      const link = e.target && e.target.closest ? e.target.closest(".ns-product-link") : null;
-      if (!link) return;
-      const itemId = link.getAttribute("data-closet-id") || "";
-      const li = link.closest("li");
-      if (!li) return;
-      const item =
-        (itemId && allProducts.find((it) => String(it.id) === String(itemId))) ||
-        (function () {
-          const nameEl = li.querySelector(".ns-product-title");
-          const name = nameEl ? (nameEl.textContent || "").trim() : "";
-          return name ? allProducts.find((it) => it.name === name) || null : null;
-        })();
-      if (!item) return;
-      e.preventDefault();
-      showClosetDetail(item, { push: true });
-    });
+    // No click interception: closet items navigate to pre-generated static pages.
   }
 
   const yearEl = byId("year");
