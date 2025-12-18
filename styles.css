@@ -552,6 +552,132 @@ select {
   color: rgba(57, 57, 57, 0.65);
 }
 
+/* Home: Demo */
+.home-demo-subtitle {
+  margin: 0.6rem 0 0;
+  font-size: 1.4rem;
+  color: rgba(57, 57, 57, 0.75);
+  line-height: 1.6;
+}
+
+.demo-grid {
+  margin-top: 1.6rem;
+  display: grid;
+  gap: 1.4rem;
+}
+
+.demo-row {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.demo-row-label {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(57, 57, 57, 0.65);
+}
+
+.demo-carousel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.2rem;
+  outline: none;
+}
+
+.demo-carousel:focus-visible {
+  outline: 2px solid rgba(57, 57, 57, 0.35);
+  outline-offset: 6px;
+}
+
+.demo-arrow {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--soft);
+  background: white;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: rgba(18, 18, 18, 0.85);
+}
+
+.demo-arrow:hover {
+  border-color: var(--border);
+}
+
+.demo-arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.demo-window {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+  padding: 1.2rem 1.2rem;
+  border: 1px solid var(--soft);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.demo-item {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: opacity 180ms ease, filter 180ms ease, transform 180ms ease;
+}
+
+.demo-item img {
+  width: 100%;
+  max-width: 220px;
+  height: 104px;
+  object-fit: contain;
+  display: block;
+}
+
+.demo-item.is-prev,
+.demo-item.is-next {
+  opacity: 0.35;
+  filter: grayscale(1) contrast(0.95);
+  transform: scale(0.96);
+}
+
+.demo-item.is-active {
+  cursor: default;
+  opacity: 1;
+  filter: none;
+  transform: scale(1);
+}
+
+.demo-item.is-active img {
+  filter: drop-shadow(0 10px 24px rgba(57, 57, 57, 0.12));
+}
+
+.demo-item:focus-visible {
+  outline: 2px solid rgba(57, 57, 57, 0.35);
+  outline-offset: 6px;
+}
+
+@media (max-width: 900px) {
+  .demo-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    align-items: stretch;
+  }
+  .demo-row-label {
+    text-align: left;
+  }
+}
+
 .results-meta {
   margin: 0 0 14px;
   font-size: 12px;
