@@ -636,6 +636,12 @@ select {
 }
 
 @media (min-width: 1240px) {
+  /* Align navbar to the same width as page content */
+  .header-inner {
+    width: calc(75% - 3.2rem);
+    margin: 0 auto;
+  }
+
   /* Align page header + content by sizing the shared container once */
   .page {
     width: calc(75% - 3.2rem);
