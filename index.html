@@ -36,7 +36,7 @@
             </p>
             <div class="home-hero-cta">
               <a class="pill pill-primary" href="./closet/">Open Closet</a>
-              <a class="pill" href="./outfit-builder.html">Try Outfit Builder</a>
+              <a class="pill" href="./outfit-builder/">Try Outfit Builder</a>
             </div>
           </div>
 
@@ -50,6 +50,121 @@
               <div class="home-preview-tile"></div>
               <div class="home-preview-tile"></div>
               <div class="home-preview-tile"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-demo" aria-label="Demo">
+        <h3 class="home-section-title">Demo</h3>
+        <p class="home-demo-subtitle">Use the arrows to scroll tops, pants, and shoes to preview outfit combinations.</p>
+
+        <div class="demo-grid" role="group" aria-label="Outfit demo carousels">
+          <div class="demo-row">
+            <div class="demo-row-head" data-demo-row="tops">
+              <button class="demo-drag-handle" type="button" draggable="true" aria-label="Drag to reorder Top row" title="Drag to reorder">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 7h2v2H9V7zm4 0h2v2h-2V7zM9 11h2v2H9v-2zm4 0h2v2h-2v-2zM9 15h2v2H9v-2zm4 0h2v2h-2v-2z" fill="currentColor"></path>
+                </svg>
+              </button>
+              <div class="demo-row-label">Top</div>
+            </div>
+            <div class="demo-carousel" data-demo-carousel="tops" aria-label="Tops carousel">
+              <button class="demo-arrow" type="button" data-demo-prev aria-label="Previous top">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+
+              <div class="demo-window" role="group" aria-label="Selected top">
+                <button class="demo-item is-prev" type="button" data-demo-pick="prev" aria-label="Select previous top">
+                  <img data-demo-img="prev" alt="" loading="lazy" decoding="async" />
+                </button>
+                <div class="demo-item is-active" aria-label="Selected top">
+                  <img data-demo-img="active" alt="" loading="lazy" decoding="async" />
+                </div>
+                <button class="demo-item is-next" type="button" data-demo-pick="next" aria-label="Select next top">
+                  <img data-demo-img="next" alt="" loading="lazy" decoding="async" />
+                </button>
+              </div>
+
+              <button class="demo-arrow" type="button" data-demo-next aria-label="Next top">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="demo-row">
+            <div class="demo-row-head" data-demo-row="pants">
+              <button class="demo-drag-handle" type="button" draggable="true" aria-label="Drag to reorder Pants row" title="Drag to reorder">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 7h2v2H9V7zm4 0h2v2h-2V7zM9 11h2v2H9v-2zm4 0h2v2h-2v-2zM9 15h2v2H9v-2zm4 0h2v2h-2v-2z" fill="currentColor"></path>
+                </svg>
+              </button>
+              <div class="demo-row-label">Pants</div>
+            </div>
+            <div class="demo-carousel" data-demo-carousel="pants" aria-label="Pants carousel">
+              <button class="demo-arrow" type="button" data-demo-prev aria-label="Previous pants">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+
+              <div class="demo-window" role="group" aria-label="Selected pants">
+                <button class="demo-item is-prev" type="button" data-demo-pick="prev" aria-label="Select previous pants">
+                  <img data-demo-img="prev" alt="" loading="lazy" decoding="async" />
+                </button>
+                <div class="demo-item is-active" aria-label="Selected pants">
+                  <img data-demo-img="active" alt="" loading="lazy" decoding="async" />
+                </div>
+                <button class="demo-item is-next" type="button" data-demo-pick="next" aria-label="Select next pants">
+                  <img data-demo-img="next" alt="" loading="lazy" decoding="async" />
+                </button>
+              </div>
+
+              <button class="demo-arrow" type="button" data-demo-next aria-label="Next pants">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="demo-row">
+            <div class="demo-row-head" data-demo-row="shoes">
+              <button class="demo-drag-handle" type="button" draggable="true" aria-label="Drag to reorder Shoes row" title="Drag to reorder">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 7h2v2H9V7zm4 0h2v2h-2V7zM9 11h2v2H9v-2zm4 0h2v2h-2v-2zM9 15h2v2H9v-2zm4 0h2v2h-2v-2z" fill="currentColor"></path>
+                </svg>
+              </button>
+              <div class="demo-row-label">Shoes</div>
+            </div>
+            <div class="demo-carousel" data-demo-carousel="shoes" aria-label="Shoes carousel">
+              <button class="demo-arrow" type="button" data-demo-prev aria-label="Previous shoes">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+
+              <div class="demo-window" role="group" aria-label="Selected shoes">
+                <button class="demo-item is-prev" type="button" data-demo-pick="prev" aria-label="Select previous shoes">
+                  <img data-demo-img="prev" alt="" loading="lazy" decoding="async" />
+                </button>
+                <div class="demo-item is-active" aria-label="Selected shoes">
+                  <img data-demo-img="active" alt="" loading="lazy" decoding="async" />
+                </div>
+                <button class="demo-item is-next" type="button" data-demo-pick="next" aria-label="Select next shoes">
+                  <img data-demo-img="next" alt="" loading="lazy" decoding="async" />
+                </button>
+              </div>
+
+              <button class="demo-arrow" type="button" data-demo-next aria-label="Next shoes">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -116,5 +231,185 @@
 
     <redress-footer></redress-footer>
     <script src="./components/components.js"></script>
+    <script src="./assets/demo/assets.js"></script>
+    <script>
+      (function () {
+        const assets = window.REDRESS_DEMO_ASSETS;
+        if (!assets) return;
+
+        const gridEl = document.querySelector(".demo-grid");
+        const ORDER_KEY = "demo:rowOrder";
+
+        function mod(n, m) {
+          return ((n % m) + m) % m;
+        }
+
+        function getRowKey(rowEl) {
+          const head = rowEl.querySelector("[data-demo-row]");
+          return head ? head.getAttribute("data-demo-row") || "" : "";
+        }
+
+        function saveOrder() {
+          if (!gridEl) return;
+          const order = Array.from(gridEl.querySelectorAll(".demo-row"))
+            .map((row) => getRowKey(row))
+            .filter(Boolean);
+          try {
+            window.localStorage.setItem(ORDER_KEY, JSON.stringify(order));
+          } catch {
+            // ignore
+          }
+        }
+
+        function loadOrder() {
+          if (!gridEl) return;
+          let order = null;
+          try {
+            order = JSON.parse(window.localStorage.getItem(ORDER_KEY) || "null");
+          } catch {
+            order = null;
+          }
+          if (!Array.isArray(order) || order.length < 2) return;
+
+          const rows = Array.from(gridEl.querySelectorAll(".demo-row"));
+          const byKey = new Map(rows.map((r) => [getRowKey(r), r]));
+          const fragment = document.createDocumentFragment();
+
+          for (const key of order) {
+            const row = byKey.get(key);
+            if (row) fragment.appendChild(row);
+          }
+          // Append any missing rows at the end (future-proofing).
+          for (const row of rows) {
+            if (!fragment.contains(row)) fragment.appendChild(row);
+          }
+          gridEl.appendChild(fragment);
+        }
+
+        function setupCarousel(root) {
+          const key = root.getAttribute("data-demo-carousel") || "";
+          const items = assets[key] || [];
+          if (items.length < 1) return;
+
+          const prevBtn = root.querySelector("[data-demo-prev]");
+          const nextBtn = root.querySelector("[data-demo-next]");
+          const pickPrevBtn = root.querySelector('[data-demo-pick="prev"]');
+          const pickNextBtn = root.querySelector('[data-demo-pick="next"]');
+
+          const prevImg = root.querySelector('[data-demo-img="prev"]');
+          const activeImg = root.querySelector('[data-demo-img="active"]');
+          const nextImg = root.querySelector('[data-demo-img="next"]');
+
+          if (!(prevImg instanceof HTMLImageElement)) return;
+          if (!(activeImg instanceof HTMLImageElement)) return;
+          if (!(nextImg instanceof HTMLImageElement)) return;
+
+          let index = 0;
+
+          function render() {
+            const len = items.length;
+            const prevIndex = mod(index - 1, len);
+            const nextIndex = mod(index + 1, len);
+
+            const prevItem = items[prevIndex];
+            const activeItem = items[index];
+            const nextItem = items[nextIndex];
+
+            prevImg.src = prevItem.src;
+            prevImg.alt = prevItem.name;
+
+            activeImg.src = activeItem.src;
+            activeImg.alt = activeItem.name;
+
+            nextImg.src = nextItem.src;
+            nextImg.alt = nextItem.name;
+
+            root.setAttribute("data-demo-active", activeItem.id || "");
+          }
+
+          function go(delta) {
+            index = mod(index + delta, items.length);
+            render();
+          }
+
+          if (prevBtn) prevBtn.addEventListener("click", () => go(-1));
+          if (nextBtn) nextBtn.addEventListener("click", () => go(1));
+          if (pickPrevBtn) pickPrevBtn.addEventListener("click", () => go(-1));
+          if (pickNextBtn) pickNextBtn.addEventListener("click", () => go(1));
+
+          root.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") {
+              e.preventDefault();
+              go(-1);
+            }
+            if (e.key === "ArrowRight") {
+              e.preventDefault();
+              go(1);
+            }
+          });
+
+          root.tabIndex = 0;
+          render();
+        }
+
+        function setupReorder() {
+          if (!gridEl) return;
+          loadOrder();
+
+          let draggedRow = null;
+
+          gridEl.addEventListener("dragstart", (e) => {
+            const handle = e.target && e.target.closest ? e.target.closest(".demo-drag-handle") : null;
+            if (!handle) return;
+            const row = handle.closest(".demo-row");
+            if (!row) return;
+            draggedRow = row;
+            row.classList.add("is-dragging");
+            e.dataTransfer.effectAllowed = "move";
+            try {
+              e.dataTransfer.setData("text/plain", getRowKey(row) || "row");
+            } catch {
+              // ignore
+            }
+          });
+
+          gridEl.addEventListener("dragend", () => {
+            if (draggedRow) draggedRow.classList.remove("is-dragging");
+            draggedRow = null;
+            gridEl.querySelectorAll(".is-drop-target").forEach((el) => el.classList.remove("is-drop-target"));
+          });
+
+          gridEl.addEventListener("dragover", (e) => {
+            if (!draggedRow) return;
+            const targetRow = e.target && e.target.closest ? e.target.closest(".demo-row") : null;
+            if (!targetRow || targetRow === draggedRow) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+
+            const rect = targetRow.getBoundingClientRect();
+            const before = e.clientY < rect.top + rect.height / 2;
+            targetRow.classList.add("is-drop-target");
+            const ref = before ? targetRow : targetRow.nextSibling;
+            if (ref !== draggedRow && draggedRow.nextSibling !== ref) {
+              gridEl.insertBefore(draggedRow, ref);
+            }
+          });
+
+          gridEl.addEventListener("dragleave", (e) => {
+            const targetRow = e.target && e.target.closest ? e.target.closest(".demo-row") : null;
+            if (targetRow) targetRow.classList.remove("is-drop-target");
+          });
+
+          gridEl.addEventListener("drop", (e) => {
+            if (!draggedRow) return;
+            e.preventDefault();
+            saveOrder();
+          });
+        }
+
+        setupReorder();
+        document.querySelectorAll("[data-demo-carousel]").forEach((el) => setupCarousel(el));
+      })();
+    </script>
   </body>
 </html>

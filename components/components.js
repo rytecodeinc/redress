@@ -7,20 +7,19 @@ class RedressHeader extends HTMLElement {
     this.innerHTML = `
       <header class="site-header">
         <div class="header-inner">
-          <div class="brand">
+          <a class="brand brand-link" href="${baseUrl}" aria-label="Redress home">
             <div class="brand-mark" aria-hidden="true">R</div>
             <div class="brand-text">
               <div class="brand-name">Redress</div>
               <div class="brand-sub">Digital Closet</div>
             </div>
-          </div>
+          </a>
 
           <nav class="nav" aria-label="Primary">
-            <a class="nav-link" data-nav="home" href="${baseUrl}">Home</a>
             <a class="nav-link" data-nav="closet" href="${new URL("closet/", baseUrl).toString()}">Closet</a>
             <a class="nav-link" data-nav="wishlist" href="${new URL("wishlist/", baseUrl).toString()}">Wishlist</a>
-            <a class="nav-link" data-nav="outfit-builder" href="${new URL("outfit-builder.html", baseUrl).toString()}">Outfit Builder</a>
-            <a class="nav-link" data-nav="resale" href="#">Resale</a>
+            <a class="nav-link" data-nav="outfits" href="${new URL("outfits/", baseUrl).toString()}">Outfits</a>
+            <a class="nav-link" data-nav="outfit-builder" href="${new URL("outfit-builder/", baseUrl).toString()}">Outfit Builder</a>
           </nav>
 
           <div class="header-actions">
@@ -71,45 +70,95 @@ class RedressFooter extends HTMLElement {
 }
 
 class RedressPageHeader extends HTMLElement {
+  static get observedAttributes() {
+    return [
+      "active",
+      "title",
+      "subtitle",
+      "crumb",
+      "home-link",
+      "hide-title",
+      "parent-title",
+      "parent-href",
+      "parent2-title",
+      "parent2-href",
+    ];
+  }
+
   connectedCallback() {
+    this.render();
+  }
+
+  attributeChangedCallback() {
+    // Re-render whenever attributes change (supports SPA-style updates).
+    if (this.isConnected) this.render();
+  }
+
+  render() {
     const active = (this.getAttribute("active") || "").trim();
     const title = this.getAttribute("title") || "";
     const subtitle = this.getAttribute("subtitle") || "";
     const crumb = this.getAttribute("crumb") || title || "";
     const showHomeLink = this.getAttribute("home-link") !== "false";
 
+    const parentTitle = this.getAttribute("parent-title") || "";
+    const parentHref = this.getAttribute("parent-href") || "";
+    const parent2Title = this.getAttribute("parent2-title") || "";
+    const parent2Href = this.getAttribute("parent2-href") || "";
+    const hideTitle = this.getAttribute("hide-title") === "true";
+
     const basePath = getBasePath();
     const baseUrl = new URL(basePath, window.location.origin).toString();
 
-    const crumbsHtml = showHomeLink
-      ? `
+    let crumbsHtml = "";
+    if (!showHomeLink) {
+      crumbsHtml = `<span aria-current="page">${escapeHtml(crumb || "Home")}</span>`;
+    } else if (parentTitle && parentHref && parent2Title && parent2Href) {
+      crumbsHtml = `
+        <a href="${baseUrl}">Home</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <a href="${parentHref}">${escapeHtml(parentTitle)}</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <a href="${parent2Href}">${escapeHtml(parent2Title)}</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">${escapeHtml(crumb)}</span>
+      `;
+    } else if (parentTitle && parentHref) {
+      crumbsHtml = `
+        <a href="${baseUrl}">Home</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <a href="${parentHref}">${escapeHtml(parentTitle)}</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">${escapeHtml(crumb)}</span>
+      `;
+    } else {
+      crumbsHtml = `
         <a href="${baseUrl}">Home</a>
         <span class="crumb-sep" aria-hidden="true">/</span>
         <span aria-current="page">${escapeHtml(crumb)}</span>
-      `
+      `;
+    }
+
+    const titleHtml = hideTitle
+      ? ""
       : `
-        <span aria-current="page">${escapeHtml(crumb || "Home")}</span>
+        <div class="title-row ob-title-row">
+          <div>
+            <h1 class="page-title">${escapeHtml(title)}</h1>
+            <p class="page-subtitle">${escapeHtml(subtitle)}</p>
+          </div>
+        </div>
       `;
 
     // Reuse the Outfit Builder header structure/classes everywhere.
     this.innerHTML = `
       <div class="page-top ob-top">
-        <div class="ob-header-row">
-          <div class="breadcrumbs-row ob-breadcrumb-row">
-            <div class="breadcrumbs" aria-label="Breadcrumb">
-              ${crumbsHtml}
-            </div>
+        <div class="ob-breadcrumb-row">
+          <div class="breadcrumbs" aria-label="Breadcrumb">
+            ${crumbsHtml}
           </div>
-
-          <div class="title-row ob-title-row">
-            <div>
-              <h1 class="page-title">${escapeHtml(title)}</h1>
-              <p class="page-subtitle">${escapeHtml(subtitle)}</p>
-            </div>
-          </div>
-
-          <div class="ob-header-spacer" aria-hidden="true"></div>
         </div>
+        ${titleHtml}
       </div>
     `;
 

@@ -29,7 +29,7 @@
         <div class="ns-controls-row">
           <div role="group" aria-label="Collection controls" class="ns-controls ns-flex ns-flex-nowrap ns-items-center">
             <div role="group" aria-label="Filter and sort" class="ns-actions ns-flex ns-flex-nowrap ns-items-center">
-              <button class="pill" type="button">Filter</button>
+              <button class="pill" type="button" data-open-filters>Filter</button>
               <label class="select" aria-label="Sort">
                 <span class="select-label">Sort</span>
                 <select id="sortSelect">
@@ -65,7 +65,7 @@
         </div>
 
         <div class="results-meta" id="resultsMeta" aria-live="polite"></div>
-        <ol class="grid ns-serp" id="ns-product-grid" aria-live="polite"></ol>
+        <ol class="grid ns-serp" id="ns-product-grid" data-closet="true" aria-live="polite"></ol>
 
         <div class="pagination" aria-label="Pagination">
           <button id="prevBtn" class="page-btn" type="button">Previous</button>
@@ -73,7 +73,60 @@
           <button id="nextBtn" class="page-btn" type="button">Next</button>
         </div>
       </section>
+
+      <section id="closetDetail" class="closet-detail" hidden aria-label="Item details">
+        <div class="closet-detail-layout">
+          <div class="closet-detail-media" aria-label="Item image">
+            <div class="closet-detail-image">
+              <div id="closetDetailColor" class="color-block" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div class="closet-detail-info" aria-label="Item info">
+            <h2 id="closetDetailTitle" class="closet-detail-title"></h2>
+
+            <div class="closet-attrs" role="list" aria-label="Item attributes">
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Category</div><div id="closetDetailCategory" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Size</div><div id="closetDetailSize" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Colors</div><div id="closetDetailColors" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Seasons</div><div id="closetDetailSeasons" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Brand</div><div id="closetDetailBrand" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Price</div><div id="closetDetailPrice" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem">
+                <div class="closet-attr-key">Link</div>
+                <div class="closet-attr-val">
+                  <a id="closetDetailLink" href="#" target="_blank" rel="noreferrer">View item</a>
+                </div>
+              </div>
+              <div class="closet-attr-row is-notes" role="listitem">
+                <div class="closet-attr-key">Notes</div>
+                <div id="closetDetailNotes" class="closet-attr-val closet-notes"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <div class="sheet-backdrop" data-sheet-backdrop hidden></div>
+    <aside class="sheet" data-filter-sheet hidden role="dialog" aria-modal="true" aria-label="Filters">
+      <div class="sheet-header">
+        <div class="sheet-title">Filters</div>
+        <button class="icon-btn sheet-close" type="button" data-close-filters aria-label="Close filters">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6L6 18"></path>
+            <path d="M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sheet-body" id="filterControls" aria-label="Filter options"></div>
+
+      <div class="sheet-footer">
+        <button class="pill" type="button" data-clear-filters>Clear</button>
+        <button class="pill pill-primary" type="button" data-apply-filters>Apply</button>
+      </div>
+    </aside>
 
     <redress-footer></redress-footer>
     <script src="../components/components.js"></script>
