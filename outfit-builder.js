@@ -119,6 +119,13 @@ function truncateToWidth(ctx, text, maxWidth) {
   return text.slice(0, Math.max(0, lo)) + ellipsis;
 }
 
+function sanitizeFilename(name) {
+  return String(name)
+    .replaceAll(/[\\/:*?"<>|]+/g, "-")
+    .replaceAll(/\s+/g, " ")
+    .trim();
+}
+
 function main() {
   const gridEl = qs("#obItemGrid");
   const metaEl = qs("#obResultsMeta");
@@ -189,7 +196,7 @@ function main() {
     setSelected(itemEl);
   }
 
-  function downloadCanvasImage() {
+  async function downloadCanvasImage() {
     const canvasRect = canvasEl.getBoundingClientRect();
     const width = Math.max(1, Math.round(canvasRect.width));
     const height = Math.max(1, Math.round(canvasRect.height));
@@ -267,12 +274,46 @@ function main() {
     }
 
     const stamp = new Date().toISOString().slice(0, 10);
+    const suggestedName = sanitizeFilename(`redress-outfit-${stamp}.png`);
+
+    const blob = await new Promise((resolve) => {
+      out.toBlob((b) => resolve(b), "image/png");
+    });
+    if (!blob) return;
+
+    // Preferred: native “Save As…” dialog (Chrome/Edge/etc.).
+    // Lets the user choose BOTH filename and location.
+    if (typeof window.showSaveFilePicker === "function") {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName,
+          types: [
+            {
+              description: "PNG image",
+              accept: { "image/png": [".png"] },
+            },
+          ],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return;
+      } catch {
+        // User cancelled or API error; fall back to normal download.
+      }
+    }
+
+    // Fallback: standard download (cannot pick directory), optionally prompt for name.
+    const chosen = window.prompt("Save image as…", suggestedName);
+    const filename = sanitizeFilename(chosen || suggestedName) || suggestedName;
+    const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.download = `redress-outfit-${stamp}.png`;
-    a.href = out.toDataURL("image/png");
+    a.download = filename;
+    a.href = url;
     document.body.appendChild(a);
     a.click();
     a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
   }
 
   function resizeCanvasItem(itemEl, deltaPx) {
@@ -426,7 +467,7 @@ function main() {
 
   if (downloadBtn) {
     downloadBtn.addEventListener("click", () => {
-      downloadCanvasImage();
+      void downloadCanvasImage();
     });
   }
 
