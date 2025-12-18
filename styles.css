@@ -642,6 +642,12 @@ select {
     margin: 0 auto;
   }
 
+  /* Align footer to the same width as page content */
+  .footer-inner {
+    width: calc(75% - 3.2rem);
+    margin: 0 auto;
+  }
+
   /* Align page header + content by sizing the shared container once */
   .page {
     width: calc(75% - 3.2rem);
