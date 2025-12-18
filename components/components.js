@@ -19,7 +19,7 @@ class RedressHeader extends HTMLElement {
             <a class="nav-link" data-nav="home" href="${baseUrl}">Home</a>
             <a class="nav-link" data-nav="closet" href="${new URL("closet/", baseUrl).toString()}">Closet</a>
             <a class="nav-link" data-nav="wishlist" href="${new URL("wishlist/", baseUrl).toString()}">Wishlist</a>
-            <a class="nav-link" data-nav="outfit-builder" href="${new URL("outfit-builder.html", baseUrl).toString()}">Outfit Builder</a>
+            <a class="nav-link" data-nav="outfit-builder" href="${new URL("outfit-builder/", baseUrl).toString()}">Outfit Builder</a>
             <a class="nav-link" data-nav="resale" href="#">Resale</a>
           </nav>
 

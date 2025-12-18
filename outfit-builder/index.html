@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redress — Outfit Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="redress-app page-outfit-builder">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <redress-header active="outfit-builder"></redress-header>
+
+    <main id="main" class="page ob-page">
+      <redress-page-header
+        active="outfit-builder"
+        title="Outfit Builder"
+        crumb="Outfit Builder"
+        subtitle="Click or drag items onto the canvas to build a look."
+      ></redress-page-header>
+
+      <section class="ob-layout" aria-label="Outfit builder">
+        <div class="ob-main">
+          <div class="ob-panels">
+            <div class="ob-canvas-panel" aria-label="Canvas">
+              <div class="ob-panel-head ob-canvas-head">
+                <button class="pill ob-download-canvas" type="button">Download</button>
+                <div class="ob-canvas-actions">
+                  <button class="pill ob-clear-canvas" type="button">Clear canvas</button>
+                  <button class="pill ob-delete-selected" type="button" disabled>Delete selected</button>
+                </div>
+              </div>
+              <div class="ob-canvas-hint">Drag items here to create your outfit collage.</div>
+              <div id="obCanvas" class="ob-canvas" role="application" aria-label="Outfit canvas"></div>
+            </div>
+
+            <div class="ob-grid-panel" aria-label="Items">
+              <div class="ob-filters-bar" aria-label="Filters">
+                <div class="ob-filters-left">
+                  <div class="ob-filter-group" aria-label="Category filters">
+                    <div class="ob-filter-title">Category</div>
+                    <div class="ob-chips">
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Tops" /><span>Tops</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Bottoms" /><span>Bottoms</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Dresses" /><span>Dresses</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Shoes" /><span>Shoes</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Bags" /><span>Bags</span></label>
+                      <label class="ob-chip"><input type="checkbox" name="cat" value="Accessories" /><span>Accessories</span></label>
+                    </div>
+                  </div>
+
+                  <div class="ob-filter-group" aria-label="Color filters">
+                    <div class="ob-filter-title">Color</div>
+                    <div class="ob-chips">
+                      <label class="ob-chip"
+                        ><input type="checkbox" name="color" value="#c8c7ba" /><span
+                          ><span class="ob-swatch" style="--tile:#c8c7ba"></span>Sand</span
+                        ></label
+                      >
+                      <label class="ob-chip"
+                        ><input type="checkbox" name="color" value="#bac8c3" /><span
+                          ><span class="ob-swatch" style="--tile:#bac8c3"></span>Sage</span
+                        ></label
+                      >
+                      <label class="ob-chip"
+                        ><input type="checkbox" name="color" value="#d9d2c7" /><span
+                          ><span class="ob-swatch" style="--tile:#d9d2c7"></span>Stone</span
+                        ></label
+                      >
+                      <label class="ob-chip"
+                        ><input type="checkbox" name="color" value="#e7dfd2" /><span
+                          ><span class="ob-swatch" style="--tile:#e7dfd2"></span>Ivory</span
+                        ></label
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <button class="pill ob-clear-filters" type="button">Clear</button>
+              </div>
+
+              <div class="ob-panel-head">
+                <div class="results-meta" id="obResultsMeta" aria-live="polite"></div>
+                <div role="group" aria-label="Layout options" class="ns-grid-controls ns-flex ns-flex-nowrap ns-items-center">
+                  <button aria-pressed="false" aria-label="Set to gallery layout" class="ns-grid-toggle ob-toggle-gallery" type="button">
+                    <svg aria-hidden="true" role="presentation" width="16.8" height="10.8" viewBox="0 0 14 10" fill="#bac8c3" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 .5h4v4H0zM0 5.5h4v4H0zM5 .5h4v4H5zM5 5.5h4v4H5zM10 .5h4v4h-4zM10 5.5h4v4h-4z"></path>
+                    </svg>
+                  </button>
+                  <button aria-pressed="true" aria-label="Set to 4 column layout" class="ns-grid-toggle ob-toggle-compact" type="button">
+                    <svg aria-hidden="true" role="presentation" xmlns="http://www.w3.org/2000/svg" width="20.4" height="12" viewBox="0 0 88 58" fill="#bac8c3">
+                      <g clip-path="url(#ns-clip-ob-001)">
+                        <path d="M20 0H0V58H20V0Z"></path>
+                        <path d="M43 0H22V58H43V0Z"></path>
+                        <path d="M45 0H65V58H45V0Z"></path>
+                        <path d="M88 0H67V58H88V0Z"></path>
+                      </g>
+                      <defs>
+                        <clipPath id="ns-clip-ob-001"><rect width="88" height="58" fill="white"></rect></clipPath>
+                      </defs>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="ob-grid" id="obItemGrid" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <redress-footer></redress-footer>
+    <script src="../components/components.js"></script>
+    <script src="../outfit-builder.js"></script>
+  </body>
+</html>
