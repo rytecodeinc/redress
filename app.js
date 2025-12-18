@@ -130,6 +130,7 @@ function makePageRange(current, total) {
 }
 
 function renderGrid(gridEl, items) {
+  const showWishlistBadge = gridEl.dataset.wishlist === "true";
   gridEl.innerHTML = items
     .map(
       (p) => `
@@ -137,6 +138,17 @@ function renderGrid(gridEl, items) {
         <a class="ns-product-link" href="#" aria-label="${escapeHtml(p.name)}">
           <div class="card-media ns-product-media">
             <div class="color-block" aria-hidden="true"></div>
+            ${
+              showWishlistBadge
+                ? `
+              <span class="ns-wishlist-heart" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.8 4.9c-1.9-1.9-5.1-1.9-7 0l-.8.8-.8-.8c-1.9-1.9-5.1-1.9-7 0-1.9 1.9-1.9 5.1 0 7l.8.8L12 21l4.2-8.3.8-.8c1.9-1.9 1.9-5.1 0-7z"/>
+                </svg>
+              </span>
+              `
+                : ""
+            }
           </div>
           <div class="ns-product-info">
             <div class="card-meta ns-product-tag">${escapeHtml(p.tag)}</div>
