@@ -730,6 +730,116 @@ select {
   outline-offset: 6px;
 }
 
+/* Sidesheet (Filters) */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 30;
+}
+
+.sheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: min(420px, 92vw);
+  background: white;
+  border-right: 1px solid var(--soft);
+  z-index: 31;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  transform: translateX(-105%);
+  transition: transform 220ms ease;
+}
+
+.sheet.is-open {
+  transform: translateX(0);
+}
+
+.sheet-header {
+  padding: 1.6rem 1.6rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  border-bottom: 1px solid var(--soft);
+}
+
+.sheet-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.sheet-close {
+  border-radius: 999px;
+}
+
+.sheet-body {
+  padding: 1.2rem 1.6rem;
+  overflow: auto;
+}
+
+.sheet-footer {
+  padding: 1.2rem 1.6rem 1.6rem;
+  border-top: 1px solid var(--soft);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.sheet-group {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1.6rem;
+}
+
+.sheet-group legend {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(57, 57, 57, 0.65);
+  margin-bottom: 0.8rem;
+}
+
+.sheet-options {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.sheet-check {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+  color: rgba(57, 57, 57, 0.85);
+}
+
+.sheet-check input {
+  width: 16px;
+  height: 16px;
+}
+
+.sheet-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.sheet-input {
+  border: 1px solid var(--soft);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  width: 100%;
+}
+
+.sheet-input:focus-visible {
+  outline: 2px solid rgba(57, 57, 57, 0.35);
+  outline-offset: 3px;
+}
+
 @media (max-width: 900px) {
   .demo-row {
     grid-template-columns: 1fr;

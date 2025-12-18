@@ -230,6 +230,76 @@ function makePageRange(current, total) {
   return out;
 }
 
+function buildWishlistList(names) {
+  // Wishlist has the same underlying attributes as closet items so it can be filtered the same way,
+  // but keeps a "Saved" tag for display.
+  return buildClosetList(names).map((it, idx) => ({
+    ...it,
+    tag: idx % 4 === 0 ? "Pinned" : "Saved",
+  }));
+}
+
+function uniqSorted(values) {
+  return Array.from(new Set(values.filter(Boolean))).sort((a, b) => String(a).localeCompare(String(b)));
+}
+
+function containsText(haystack, needle) {
+  const n = String(needle || "").trim().toLowerCase();
+  if (!n) return true;
+  return String(haystack || "").toLowerCase().includes(n);
+}
+
+function applyAttributeFilters(items, filters) {
+  const {
+    categories,
+    sizes,
+    colors,
+    seasons,
+    brands,
+    priceMin,
+    priceMax,
+    linkQuery,
+    notesQuery,
+  } = filters;
+
+  const min = priceMin === "" ? null : Number.parseFloat(String(priceMin));
+  const max = priceMax === "" ? null : Number.parseFloat(String(priceMax));
+
+  return items.filter((it) => {
+    if (categories.size && !categories.has(String(it.category || ""))) return false;
+    if (sizes.size && !sizes.has(String(it.size || ""))) return false;
+    if (brands.size && !brands.has(String(it.brand || ""))) return false;
+
+    if (colors.size) {
+      const itemColors = new Set((it.colors || []).map(String));
+      let ok = false;
+      for (const c of colors) if (itemColors.has(c)) ok = true;
+      if (!ok) return false;
+    }
+
+    if (seasons.size) {
+      const itemSeasons = new Set((it.seasons || []).map(String));
+      let ok = false;
+      for (const s of seasons) if (itemSeasons.has(s)) ok = true;
+      if (!ok) return false;
+    }
+
+    if (min !== null && Number.isFinite(min)) {
+      const p = Number(it.price);
+      if (Number.isFinite(p) && p < min) return false;
+    }
+
+    if (max !== null && Number.isFinite(max)) {
+      const p = Number(it.price);
+      if (Number.isFinite(p) && p > max) return false;
+    }
+
+    if (!containsText(it.link, linkQuery)) return false;
+    if (!containsText(it.notes, notesQuery)) return false;
+    return true;
+  });
+}
+
 function renderGrid(gridEl, items) {
   const showWishlistBadge = gridEl.dataset.wishlist === "true";
   const isCloset = gridEl.dataset.closet === "true";
@@ -332,14 +402,30 @@ function main() {
 
   const isCloset = gridEl.dataset.closet === "true";
   const isOutfits = gridEl.dataset.outfits === "true";
+  const isWishlist = gridEl.dataset.wishlist === "true";
   const allProducts = isCloset
     ? buildClosetList(PRODUCTS)
-    : isOutfits
-      ? buildOutfitList(OUTFITS)
-      : buildProductList(PRODUCTS);
+    : isWishlist
+      ? buildWishlistList(PRODUCTS)
+      : isOutfits
+        ? buildOutfitList(OUTFITS)
+        : buildProductList(PRODUCTS);
 
   let sortMode = sortSelect.value;
-  let sorted = applySort(allProducts, sortMode);
+  let filters = {
+    categories: new Set(),
+    sizes: new Set(),
+    colors: new Set(),
+    seasons: new Set(),
+    brands: new Set(),
+    priceMin: "",
+    priceMax: "",
+    linkQuery: "",
+    notesQuery: "",
+  };
+
+  let filteredItems = isCloset || isWishlist ? applyAttributeFilters(allProducts, filters) : allProducts;
+  let sorted = applySort(filteredItems, sortMode);
   let currentPage = getPageFromUrl();
 
   // Align to Cult Gaia style selectors for view switching.
@@ -414,7 +500,7 @@ function main() {
 
   sortSelect.addEventListener("change", () => {
     sortMode = sortSelect.value;
-    sorted = applySort(allProducts, sortMode);
+    sorted = applySort(filteredItems, sortMode);
     render(1);
   });
 
@@ -546,6 +632,182 @@ function main() {
 
   const yearEl = byId("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+  function recomputeAndRender(nextPage = 1) {
+    filteredItems = isCloset || isWishlist ? applyAttributeFilters(allProducts, filters) : allProducts;
+    sorted = applySort(filteredItems, sortMode);
+    render(nextPage);
+  }
+
+  function setupFilterSheet() {
+    if (!(isCloset || isWishlist)) return;
+    const openBtn = document.querySelector("[data-open-filters]");
+    const closeBtn = document.querySelector("[data-close-filters]");
+    const applyBtn = document.querySelector("[data-apply-filters]");
+    const clearBtn = document.querySelector("[data-clear-filters]");
+    const sheet = document.querySelector("[data-filter-sheet]");
+    const backdrop = document.querySelector("[data-sheet-backdrop]");
+    const controls = document.getElementById("filterControls");
+    if (!openBtn || !sheet || !backdrop || !controls) return;
+
+    function buildCheckboxGroup({ title, values, key }) {
+      const fieldset = document.createElement("fieldset");
+      fieldset.className = "sheet-group";
+      const legend = document.createElement("legend");
+      legend.textContent = title;
+      fieldset.appendChild(legend);
+
+      const wrap = document.createElement("div");
+      wrap.className = "sheet-options";
+      for (const v of values) {
+        const id = `f-${key}-${slugify(v) || v}`;
+        const label = document.createElement("label");
+        label.className = "sheet-check";
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.id = id;
+        input.checked = filters[key].has(v);
+        input.addEventListener("change", () => {
+          if (input.checked) filters[key].add(v);
+          else filters[key].delete(v);
+        });
+
+        const span = document.createElement("span");
+        span.textContent = v;
+        label.appendChild(input);
+        label.appendChild(span);
+        wrap.appendChild(label);
+      }
+      fieldset.appendChild(wrap);
+      return fieldset;
+    }
+
+    function buildTextGroup({ title, key, placeholder }) {
+      const fieldset = document.createElement("fieldset");
+      fieldset.className = "sheet-group";
+      const legend = document.createElement("legend");
+      legend.textContent = title;
+      fieldset.appendChild(legend);
+      const input = document.createElement("input");
+      input.className = "sheet-input";
+      input.type = "text";
+      input.value = filters[key];
+      input.placeholder = placeholder;
+      input.addEventListener("input", () => {
+        filters[key] = input.value;
+      });
+      fieldset.appendChild(input);
+      return fieldset;
+    }
+
+    function buildPriceGroup() {
+      const fieldset = document.createElement("fieldset");
+      fieldset.className = "sheet-group";
+      const legend = document.createElement("legend");
+      legend.textContent = "Price";
+      fieldset.appendChild(legend);
+
+      const row = document.createElement("div");
+      row.className = "sheet-input-row";
+
+      const min = document.createElement("input");
+      min.className = "sheet-input";
+      min.type = "number";
+      min.inputMode = "decimal";
+      min.placeholder = "Min";
+      min.value = filters.priceMin;
+      min.addEventListener("input", () => {
+        filters.priceMin = min.value;
+      });
+
+      const max = document.createElement("input");
+      max.className = "sheet-input";
+      max.type = "number";
+      max.inputMode = "decimal";
+      max.placeholder = "Max";
+      max.value = filters.priceMax;
+      max.addEventListener("input", () => {
+        filters.priceMax = max.value;
+      });
+
+      row.appendChild(min);
+      row.appendChild(max);
+      fieldset.appendChild(row);
+      return fieldset;
+    }
+
+    function rebuildControls() {
+      controls.innerHTML = "";
+
+      const categories = uniqSorted(allProducts.map((i) => i.category));
+      const sizes = uniqSorted(allProducts.map((i) => i.size));
+      const brands = uniqSorted(allProducts.map((i) => i.brand));
+      const colors = uniqSorted(allProducts.flatMap((i) => i.colors || []));
+      const seasons = uniqSorted(allProducts.flatMap((i) => i.seasons || []));
+
+      controls.appendChild(buildCheckboxGroup({ title: "Category", values: categories, key: "categories" }));
+      controls.appendChild(buildCheckboxGroup({ title: "Size", values: sizes, key: "sizes" }));
+      controls.appendChild(buildCheckboxGroup({ title: "Colors", values: colors, key: "colors" }));
+      controls.appendChild(buildCheckboxGroup({ title: "Seasons", values: seasons, key: "seasons" }));
+      controls.appendChild(buildCheckboxGroup({ title: "Brand", values: brands, key: "brands" }));
+      controls.appendChild(buildPriceGroup());
+      controls.appendChild(buildTextGroup({ title: "Link", key: "linkQuery", placeholder: "Contains…" }));
+      controls.appendChild(buildTextGroup({ title: "Notes", key: "notesQuery", placeholder: "Contains…" }));
+    }
+
+    function open() {
+      rebuildControls();
+      backdrop.hidden = false;
+      sheet.hidden = false;
+      // Allow transition
+      requestAnimationFrame(() => sheet.classList.add("is-open"));
+      document.body.classList.add("is-sheet-open");
+      sheet.querySelector("[data-close-filters]")?.focus?.();
+    }
+
+    function close() {
+      sheet.classList.remove("is-open");
+      document.body.classList.remove("is-sheet-open");
+      setTimeout(() => {
+        sheet.hidden = true;
+        backdrop.hidden = true;
+      }, 220);
+      openBtn.focus?.();
+    }
+
+    function clear() {
+      filters = {
+        categories: new Set(),
+        sizes: new Set(),
+        colors: new Set(),
+        seasons: new Set(),
+        brands: new Set(),
+        priceMin: "",
+        priceMax: "",
+        linkQuery: "",
+        notesQuery: "",
+      };
+      rebuildControls();
+      recomputeAndRender(1);
+    }
+
+    openBtn.addEventListener("click", open);
+    backdrop.addEventListener("click", close);
+    if (closeBtn) closeBtn.addEventListener("click", close);
+    if (applyBtn)
+      applyBtn.addEventListener("click", () => {
+        recomputeAndRender(1);
+        close();
+      });
+    if (clearBtn) clearBtn.addEventListener("click", clear);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (sheet.hidden) return;
+      close();
+    });
+  }
+
   setLayout(getInitialLayout());
   if (isCloset) {
     const item = getClosetItemFromPath();
@@ -554,6 +816,8 @@ function main() {
   } else {
     render(currentPage);
   }
+
+  setupFilterSheet();
 }
 
 main();
