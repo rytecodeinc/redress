@@ -114,6 +114,7 @@ function renderItemPage(item) {
   const cssPath = "../../../styles.css";
   const componentsPath = "../../../components/components.js";
   const closetRootHref = "../../";
+  const categoryHref = "../";
 
   return `<!doctype html>
 <html lang="en">
@@ -137,6 +138,7 @@ function renderItemPage(item) {
         parent-title="Closet"
         parent-href="${closetRootHref}"
         parent2-title="${escapeHtml(item.category)}"
+        parent2-href="${categoryHref}"
         hide-title="true"
       ></redress-page-header>
 
@@ -176,6 +178,70 @@ function renderItemPage(item) {
 `;
 }
 
+function renderCategoryPage(category, items) {
+  // Path depth: /closet/<Category>/index.html
+  const cssPath = "../../styles.css";
+  const componentsPath = "../../components/components.js";
+  const closetRootHref = "../";
+
+  const cards = items
+    .map((it) => {
+      const href = `./${encodeURIComponent(safePathSegment(it.name))}/`;
+      return `
+        <li class="card ns-product" aria-label="Item ${escapeHtml(it.name)}">
+          <a class="ns-product-link" href="${href}" aria-label="${escapeHtml(it.name)}">
+            <div class="card-media ns-product-media" style="--tile:${escapeHtml(it.tile)}">
+              <div class="color-block" aria-hidden="true"></div>
+            </div>
+            <div class="ns-product-info">
+              <div class="card-meta ns-product-tag">${escapeHtml(it.category)}</div>
+              <div class="card-title ns-product-title">${escapeHtml(it.name)}</div>
+            </div>
+          </a>
+        </li>
+      `;
+    })
+    .join("");
+
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(`Redress — Closet — ${category}`)}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="${cssPath}" />
+  </head>
+  <body class="redress-app">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <redress-header active="closet"></redress-header>
+
+    <main id="main" class="page ob-page">
+      <redress-page-header
+        active="closet"
+        title="${escapeHtml(category)}"
+        crumb="${escapeHtml(category)}"
+        subtitle="Items in this category."
+        parent-title="Closet"
+        parent-href="${closetRootHref}"
+      ></redress-page-header>
+
+      <section class="collection" aria-label="Items">
+        <ol class="grid ns-serp" id="ns-product-grid" data-closet="true" aria-live="polite">
+          ${cards}
+        </ol>
+      </section>
+    </main>
+
+    <redress-footer></redress-footer>
+    <script src="${componentsPath}"></script>
+  </body>
+</html>
+`;
+}
+
 function writeFileEnsuringDir(path, contents) {
   ensureDir(dirname(path));
   writeFileSync(path, contents, "utf8");
@@ -196,11 +262,23 @@ function main() {
     count += 1;
   }
 
+  // Generate category index pages so the category breadcrumb is a real, refresh-proof page.
+  const byCategory = new Map();
+  for (const it of items) {
+    if (!byCategory.has(it.category)) byCategory.set(it.category, []);
+    byCategory.get(it.category).push(it);
+  }
+  for (const [category, list] of byCategory.entries()) {
+    const categorySeg = safePathSegment(category);
+    const outPath = join(ROOT, "closet", categorySeg, "index.html");
+    writeFileEnsuringDir(outPath, renderCategoryPage(category, list));
+  }
+
   // Also ensure the closet root exists (already does), but keep this for safety.
   ensureDir(join(ROOT, "closet"));
 
   // eslint-disable-next-line no-console
-  console.log(`Generated ${count} closet detail pages.`);
+  console.log(`Generated ${count} closet detail pages and ${byCategory.size} category pages.`);
 }
 
 main();

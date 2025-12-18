@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redress — Closet — Outerwear</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body class="redress-app">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <redress-header active="closet"></redress-header>
+
+    <main id="main" class="page ob-page">
+      <redress-page-header
+        active="closet"
+        title="Outerwear"
+        crumb="Outerwear"
+        subtitle="Items in this category."
+        parent-title="Closet"
+        parent-href="../"
+      ></redress-page-header>
+
+      <section class="collection" aria-label="Items">
+        <ol class="grid ns-serp" id="ns-product-grid" data-closet="true" aria-live="polite">
+          
+        <li class="card ns-product" aria-label="Item Dune Linen Blazer">
+          <a class="ns-product-link" href="./Dune%20Linen%20Blazer/" aria-label="Dune Linen Blazer">
+            <div class="card-media ns-product-media" style="--tile:#d9d2c7">
+              <div class="color-block" aria-hidden="true"></div>
+            </div>
+            <div class="ns-product-info">
+              <div class="card-meta ns-product-tag">Outerwear</div>
+              <div class="card-title ns-product-title">Dune Linen Blazer</div>
+            </div>
+          </a>
+        </li>
+      
+        <li class="card ns-product" aria-label="Item Rhea Denim Jacket">
+          <a class="ns-product-link" href="./Rhea%20Denim%20Jacket/" aria-label="Rhea Denim Jacket">
+            <div class="card-media ns-product-media" style="--tile:#e7dfd2">
+              <div class="color-block" aria-hidden="true"></div>
+            </div>
+            <div class="ns-product-info">
+              <div class="card-meta ns-product-tag">Outerwear</div>
+              <div class="card-title ns-product-title">Rhea Denim Jacket</div>
+            </div>
+          </a>
+        </li>
+      
+        <li class="card ns-product" aria-label="Item Terra Twill Trench">
+          <a class="ns-product-link" href="./Terra%20Twill%20Trench/" aria-label="Terra Twill Trench">
+            <div class="card-media ns-product-media" style="--tile:#4b5563">
+              <div class="color-block" aria-hidden="true"></div>
+            </div>
+            <div class="ns-product-info">
+              <div class="card-meta ns-product-tag">Outerwear</div>
+              <div class="card-title ns-product-title">Terra Twill Trench</div>
+            </div>
+          </a>
+        </li>
+      
+        </ol>
+      </section>
+    </main>
+
+    <redress-footer></redress-footer>
+    <script src="../../components/components.js"></script>
+  </body>
+</html>
