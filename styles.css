@@ -111,6 +111,14 @@ body.page-outfit-builder .site-header {
   min-width: 240px;
 }
 
+.brand-link {
+  text-decoration: none;
+}
+
+.brand-link:hover {
+  text-decoration: none;
+}
+
 .brand-mark {
   width: 40px;
   height: 40px;

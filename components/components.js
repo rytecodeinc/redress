@@ -7,16 +7,15 @@ class RedressHeader extends HTMLElement {
     this.innerHTML = `
       <header class="site-header">
         <div class="header-inner">
-          <div class="brand">
+          <a class="brand brand-link" href="${baseUrl}" aria-label="Redress home">
             <div class="brand-mark" aria-hidden="true">R</div>
             <div class="brand-text">
               <div class="brand-name">Redress</div>
               <div class="brand-sub">Digital Closet</div>
             </div>
-          </div>
+          </a>
 
           <nav class="nav" aria-label="Primary">
-            <a class="nav-link" data-nav="home" href="${baseUrl}">Home</a>
             <a class="nav-link" data-nav="closet" href="${new URL("closet/", baseUrl).toString()}">Closet</a>
             <a class="nav-link" data-nav="wishlist" href="${new URL("wishlist/", baseUrl).toString()}">Wishlist</a>
             <a class="nav-link" data-nav="outfits" href="${new URL("outfits/", baseUrl).toString()}">Outfits</a>
