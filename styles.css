@@ -1376,6 +1376,9 @@ body.page-outfit-builder .ob-grid {
 
   body.page-outfit-builder .page.ob-page {
     display: block;
+    /* Ensure consistent gutters on small screens */
+    padding-left: 2.0rem;
+    padding-right: 2.0rem;
   }
 
   .ob-panels {
