@@ -20,7 +20,6 @@ class RedressHeader extends HTMLElement {
             <a class="nav-link" data-nav="closet" href="${new URL("closet/", baseUrl).toString()}">Closet</a>
             <a class="nav-link" data-nav="wishlist" href="${new URL("wishlist/", baseUrl).toString()}">Wishlist</a>
             <a class="nav-link" data-nav="outfit-builder" href="${new URL("outfit-builder/", baseUrl).toString()}">Outfit Builder</a>
-            <a class="nav-link" data-nav="resale" href="#">Resale</a>
           </nav>
 
           <div class="header-actions">
@@ -94,21 +93,17 @@ class RedressPageHeader extends HTMLElement {
     // Reuse the Outfit Builder header structure/classes everywhere.
     this.innerHTML = `
       <div class="page-top ob-top">
-        <div class="ob-header-row">
-          <div class="breadcrumbs-row ob-breadcrumb-row">
-            <div class="breadcrumbs" aria-label="Breadcrumb">
-              ${crumbsHtml}
-            </div>
+        <div class="ob-breadcrumb-row">
+          <div class="breadcrumbs" aria-label="Breadcrumb">
+            ${crumbsHtml}
           </div>
+        </div>
 
-          <div class="title-row ob-title-row">
-            <div>
-              <h1 class="page-title">${escapeHtml(title)}</h1>
-              <p class="page-subtitle">${escapeHtml(subtitle)}</p>
-            </div>
+        <div class="title-row ob-title-row">
+          <div>
+            <h1 class="page-title">${escapeHtml(title)}</h1>
+            <p class="page-subtitle">${escapeHtml(subtitle)}</p>
           </div>
-
-          <div class="ob-header-spacer" aria-hidden="true"></div>
         </div>
       </div>
     `;
