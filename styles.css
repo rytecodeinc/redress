@@ -292,6 +292,10 @@ body.page-outfit-builder .site-header {
   gap: 16px;
 }
 
+.title-row.ob-title-row {
+  justify-content: center;
+}
+
 .page-title {
   margin: 0;
   font-size: 3.4rem;
