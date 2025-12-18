@@ -65,12 +65,45 @@
         </div>
 
         <div class="results-meta" id="resultsMeta" aria-live="polite"></div>
-        <ol class="grid ns-serp" id="ns-product-grid" aria-live="polite"></ol>
+        <ol class="grid ns-serp" id="ns-product-grid" data-closet="true" aria-live="polite"></ol>
 
         <div class="pagination" aria-label="Pagination">
           <button id="prevBtn" class="page-btn" type="button">Previous</button>
           <div id="pageNumbers" class="page-numbers" role="navigation" aria-label="Page numbers"></div>
           <button id="nextBtn" class="page-btn" type="button">Next</button>
+        </div>
+      </section>
+
+      <section id="closetDetail" class="closet-detail" hidden aria-label="Item details">
+        <div class="closet-detail-layout">
+          <div class="closet-detail-media" aria-label="Item image">
+            <div class="closet-detail-image">
+              <div id="closetDetailColor" class="color-block" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div class="closet-detail-info" aria-label="Item info">
+            <h2 id="closetDetailTitle" class="closet-detail-title"></h2>
+
+            <div class="closet-attrs" role="list" aria-label="Item attributes">
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Category</div><div id="closetDetailCategory" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Size</div><div id="closetDetailSize" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Colors</div><div id="closetDetailColors" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Seasons</div><div id="closetDetailSeasons" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Brand</div><div id="closetDetailBrand" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem"><div class="closet-attr-key">Price</div><div id="closetDetailPrice" class="closet-attr-val"></div></div>
+              <div class="closet-attr-row" role="listitem">
+                <div class="closet-attr-key">Link</div>
+                <div class="closet-attr-val">
+                  <a id="closetDetailLink" href="#" target="_blank" rel="noreferrer">View item</a>
+                </div>
+              </div>
+              <div class="closet-attr-row is-notes" role="listitem">
+                <div class="closet-attr-key">Notes</div>
+                <div id="closetDetailNotes" class="closet-attr-val closet-notes"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
