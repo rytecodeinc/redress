@@ -70,24 +70,70 @@ class RedressFooter extends HTMLElement {
 }
 
 class RedressPageHeader extends HTMLElement {
+  static get observedAttributes() {
+    return [
+      "active",
+      "title",
+      "subtitle",
+      "crumb",
+      "home-link",
+      "hide-title",
+      "parent-title",
+      "parent-href",
+    ];
+  }
+
   connectedCallback() {
+    this.render();
+  }
+
+  attributeChangedCallback() {
+    // Re-render whenever attributes change (supports SPA-style updates).
+    if (this.isConnected) this.render();
+  }
+
+  render() {
     const active = (this.getAttribute("active") || "").trim();
     const title = this.getAttribute("title") || "";
     const subtitle = this.getAttribute("subtitle") || "";
     const crumb = this.getAttribute("crumb") || title || "";
     const showHomeLink = this.getAttribute("home-link") !== "false";
 
+    const parentTitle = this.getAttribute("parent-title") || "";
+    const parentHref = this.getAttribute("parent-href") || "";
+    const hideTitle = this.getAttribute("hide-title") === "true";
+
     const basePath = getBasePath();
     const baseUrl = new URL(basePath, window.location.origin).toString();
 
-    const crumbsHtml = showHomeLink
-      ? `
+    let crumbsHtml = "";
+    if (!showHomeLink) {
+      crumbsHtml = `<span aria-current="page">${escapeHtml(crumb || "Home")}</span>`;
+    } else if (parentTitle && parentHref) {
+      crumbsHtml = `
+        <a href="${baseUrl}">Home</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <a href="${parentHref}">${escapeHtml(parentTitle)}</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">${escapeHtml(crumb)}</span>
+      `;
+    } else {
+      crumbsHtml = `
         <a href="${baseUrl}">Home</a>
         <span class="crumb-sep" aria-hidden="true">/</span>
         <span aria-current="page">${escapeHtml(crumb)}</span>
-      `
+      `;
+    }
+
+    const titleHtml = hideTitle
+      ? ""
       : `
-        <span aria-current="page">${escapeHtml(crumb || "Home")}</span>
+        <div class="title-row ob-title-row">
+          <div>
+            <h1 class="page-title">${escapeHtml(title)}</h1>
+            <p class="page-subtitle">${escapeHtml(subtitle)}</p>
+          </div>
+        </div>
       `;
 
     // Reuse the Outfit Builder header structure/classes everywhere.
@@ -98,13 +144,7 @@ class RedressPageHeader extends HTMLElement {
             ${crumbsHtml}
           </div>
         </div>
-
-        <div class="title-row ob-title-row">
-          <div>
-            <h1 class="page-title">${escapeHtml(title)}</h1>
-            <p class="page-subtitle">${escapeHtml(subtitle)}</p>
-          </div>
-        </div>
+        ${titleHtml}
       </div>
     `;
 

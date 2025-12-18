@@ -61,12 +61,29 @@ const PRODUCTS = [
   "Koru Statement Ring",
 ];
 
+const CLOSET_CATEGORIES = ["Tops", "Bottoms", "Shoes", "Outerwear", "Bags", "Accessories", "Dresses"];
+const CLOSET_SIZES = ["XS", "S", "M", "L"];
+const CLOSET_COLORS = ["Sage", "Stone", "Ivory", "Sand", "Black", "Navy"];
+const CLOSET_SEASONS = ["Spring", "Summer", "Fall", "Winter"];
+const CLOSET_BRANDS = ["Redress", "Cult Gaia", "Meshki", "Aritzia", "Zara", "COS"];
+const CLOSET_TILES = ["#bac8c3", "#d9d2c7", "#e7dfd2", "#c8c7ba", "#393939", "#4b5563"];
+
 const PAGE_SIZE_COMPACT = 24; // 4-col mode
 const PAGE_SIZE_GALLERY = 54; // 9-col mode (6 full rows)
 const LAYOUT_KEY = "ns:gridLayout";
 
 function byId(id) {
   return document.getElementById(id);
+}
+
+function getBasePath() {
+  // Mirrors components/components.js logic.
+  const { hostname, pathname } = window.location;
+  const segments = pathname.split("/").filter(Boolean);
+  if (hostname.endsWith("github.io") && segments.length >= 1) {
+    return `/${segments[0]}/`;
+  }
+  return "/";
 }
 
 function getPageFromUrl() {
@@ -86,6 +103,56 @@ function buildProductList(names) {
     const id = idx + 1;
     const tag = idx % 7 === 0 ? "Just In" : idx % 11 === 0 ? "Trending" : "New";
     return { id, name, tag };
+  });
+}
+
+function slugify(str) {
+  return String(str)
+    .trim()
+    .toLowerCase()
+    .replaceAll(/['"]/g, "")
+    .replaceAll(/[^a-z0-9]+/g, "-")
+    .replaceAll(/^-+|-+$/g, "");
+}
+
+function sampleFrom(list, idx) {
+  return list[idx % list.length];
+}
+
+function buildClosetList(names) {
+  return names.map((name, idx) => {
+    const category = sampleFrom(CLOSET_CATEGORIES, idx);
+    const size = sampleFrom(CLOSET_SIZES, idx);
+    const brand = sampleFrom(CLOSET_BRANDS, idx);
+    const tile = sampleFrom(CLOSET_TILES, idx);
+
+    const colors = [sampleFrom(CLOSET_COLORS, idx), sampleFrom(CLOSET_COLORS, idx + 2)].filter(
+      (v, i, a) => a.indexOf(v) === i,
+    );
+    const seasons = [sampleFrom(CLOSET_SEASONS, idx), sampleFrom(CLOSET_SEASONS, idx + 1)].filter(
+      (v, i, a) => a.indexOf(v) === i,
+    );
+
+    const price = 48 + (idx % 9) * 12 + (idx % 3) * 5;
+    const link = `https://example.com/items/${encodeURIComponent(slugify(name) || String(idx + 1))}`;
+    const notes = `Placeholder notes for ${name}.\nReplace with real notes later.\nGreat for styling demos.`;
+
+    return {
+      id: `closet-${idx + 1}`,
+      name,
+      tag: category,
+      category,
+      size,
+      colors,
+      seasons,
+      brand,
+      price,
+      link,
+      notes,
+      tile,
+      slugName: slugify(name),
+      slugCategory: slugify(category),
+    };
   });
 }
 
@@ -131,12 +198,20 @@ function makePageRange(current, total) {
 
 function renderGrid(gridEl, items) {
   const showWishlistBadge = gridEl.dataset.wishlist === "true";
+  const isCloset = gridEl.dataset.closet === "true";
+  const basePath = getBasePath();
   gridEl.innerHTML = items
     .map(
       (p) => `
       <li class="card ns-product" aria-label="Product ${escapeHtml(p.name)}">
-        <a class="ns-product-link" href="#" aria-label="${escapeHtml(p.name)}">
-          <div class="card-media ns-product-media">
+        <a class="ns-product-link" href="${
+          isCloset
+            ? `${basePath}closet/${encodeURIComponent(p.category || p.slugCategory || "item")}/${encodeURIComponent(
+                p.name,
+              )}`
+            : "#"
+        }" aria-label="${escapeHtml(p.name)}">
+          <div class="card-media ns-product-media" style="${p.tile ? `--tile:${escapeHtml(p.tile)}` : ""}">
             <div class="color-block" aria-hidden="true"></div>
             ${
               showWishlistBadge
@@ -209,6 +284,7 @@ function escapeHtml(str) {
 
 function main() {
   const gridEl = byId("ns-product-grid");
+  if (!gridEl) return;
   const resultsMetaEl = byId("resultsMeta");
   const prevBtn = byId("prevBtn");
   const nextBtn = byId("nextBtn");
@@ -217,7 +293,8 @@ function main() {
   const galleryBtn = document.querySelector(".ns-toggle-gallery");
   const compactBtn = document.querySelector(".ns-toggle-compact");
 
-  const allProducts = buildProductList(PRODUCTS);
+  const isCloset = gridEl.dataset.closet === "true";
+  const allProducts = isCloset ? buildClosetList(PRODUCTS) : buildProductList(PRODUCTS);
 
   let sortMode = sortSelect.value;
   let sorted = applySort(allProducts, sortMode);
@@ -257,6 +334,10 @@ function main() {
   }
 
   function render(page) {
+    // If closet detail is open, never render the list/pagination.
+    const detailEl = byId("closetDetail");
+    if (isCloset && detailEl && !detailEl.hidden) return;
+
     const pageSize = pageSizeForLayout();
     const totalPages = pageCount(sorted.length, pageSize);
     const safePage = clamp(page, 1, totalPages);
@@ -298,15 +379,149 @@ function main() {
   if (galleryBtn) galleryBtn.addEventListener("click", () => setLayout("gallery"));
   if (compactBtn) compactBtn.addEventListener("click", () => setLayout("compact"));
 
+  function getClosetItemFromPath() {
+    const basePath = getBasePath();
+    const pathname = window.location.pathname;
+    if (!pathname.startsWith(basePath)) return null;
+    const rel = pathname.slice(basePath.length);
+    const parts = rel.split("/").filter(Boolean);
+    if (parts[0] !== "closet") return null;
+    // /closet/ => list view
+    if (parts.length < 3) return null;
+    const rawCategory = decodeURIComponent(parts[1] || "");
+    const rawName = decodeURIComponent(parts[2] || "");
+    const catSlug = slugify(rawCategory);
+    const nameSlug = slugify(rawName);
+    return (
+      allProducts.find(
+        (it) =>
+          (slugify(it.category || "") === catSlug && slugify(it.name || "") === nameSlug) ||
+          (String(it.category || "").toLowerCase() === String(rawCategory).toLowerCase() &&
+            String(it.name || "").toLowerCase() === String(rawName).toLowerCase()),
+      ) || null
+    );
+  }
+
+  function formatPrice(value) {
+    if (typeof value === "number" && Number.isFinite(value)) return `$${value.toFixed(0)}`;
+    return value ? String(value) : "—";
+  }
+
+  function setClosetHeaderForList() {
+    const headerEl = document.querySelector("redress-page-header");
+    if (!headerEl) return;
+    headerEl.setAttribute("active", "closet");
+    headerEl.setAttribute("title", "Closet");
+    headerEl.setAttribute("subtitle", "All your items, organized in one place.");
+    headerEl.setAttribute("crumb", "Closet");
+    headerEl.removeAttribute("hide-title");
+    headerEl.removeAttribute("parent-title");
+    headerEl.removeAttribute("parent-href");
+    document.title = "Redress — Closet";
+  }
+
+  function setClosetHeaderForDetail(item) {
+    const headerEl = document.querySelector("redress-page-header");
+    if (!headerEl) return;
+    const basePath = getBasePath();
+    headerEl.setAttribute("active", "closet");
+    headerEl.setAttribute("crumb", item.name);
+    headerEl.setAttribute("parent-title", "Closet");
+    headerEl.setAttribute("parent-href", `${basePath}closet/`);
+    headerEl.setAttribute("hide-title", "true");
+    document.title = `Redress — ${item.name}`;
+  }
+
+  function showClosetList() {
+    const collectionEl = document.querySelector(".collection");
+    const detailEl = byId("closetDetail");
+    if (collectionEl) collectionEl.hidden = false;
+    if (detailEl) detailEl.hidden = true;
+    setClosetHeaderForList();
+    currentPage = getPageFromUrl();
+    render(currentPage);
+  }
+
+  function showClosetDetail(item, { push = true } = {}) {
+    const collectionEl = document.querySelector(".collection");
+    const detailEl = byId("closetDetail");
+    if (!detailEl) return;
+    if (collectionEl) collectionEl.hidden = true;
+    detailEl.hidden = false;
+
+    setClosetHeaderForDetail(item);
+
+    const titleEl = byId("closetDetailTitle");
+    const catEl = byId("closetDetailCategory");
+    const sizeEl = byId("closetDetailSize");
+    const colorsEl = byId("closetDetailColors");
+    const seasonsEl = byId("closetDetailSeasons");
+    const brandEl = byId("closetDetailBrand");
+    const priceEl = byId("closetDetailPrice");
+    const linkEl = byId("closetDetailLink");
+    const notesEl = byId("closetDetailNotes");
+    const colorEl = byId("closetDetailColor");
+
+    if (titleEl) titleEl.textContent = item.name;
+    if (catEl) catEl.textContent = item.category || "—";
+    if (sizeEl) sizeEl.textContent = item.size || "—";
+    if (colorsEl) colorsEl.textContent = (item.colors || []).join(", ") || "—";
+    if (seasonsEl) seasonsEl.textContent = (item.seasons || []).join(", ") || "—";
+    if (brandEl) brandEl.textContent = item.brand || "—";
+    if (priceEl) priceEl.textContent = formatPrice(item.price);
+    if (linkEl) {
+      linkEl.href = item.link || "#";
+      linkEl.textContent = item.link ? "Open link" : "—";
+    }
+    if (notesEl) notesEl.textContent = item.notes || "";
+    if (colorEl) colorEl.style.setProperty("--tile", item.tile || "#e7dfd2");
+
+    if (push) {
+      const basePath = getBasePath();
+      const url = `${basePath}closet/${encodeURIComponent(item.category || "Item")}/${encodeURIComponent(item.name)}`;
+      window.history.pushState({ closet: true, itemId: item.id }, "", url);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
   window.addEventListener("popstate", () => {
+    if (isCloset) {
+      const item = getClosetItemFromPath();
+      if (item) showClosetDetail(item, { push: false });
+      else showClosetList();
+      return;
+    }
     currentPage = getPageFromUrl();
     render(currentPage);
   });
 
+  if (isCloset) {
+    // Intercept clicks on closet cards to render SPA detail view.
+    gridEl.addEventListener("click", (e) => {
+      const link = e.target && e.target.closest ? e.target.closest(".ns-product-link") : null;
+      if (!link) return;
+      const li = link.closest("li");
+      if (!li) return;
+      const nameEl = li.querySelector(".ns-product-title");
+      const name = nameEl ? (nameEl.textContent || "").trim() : "";
+      if (!name) return;
+      const item = allProducts.find((it) => it.name === name) || null;
+      if (!item) return;
+      e.preventDefault();
+      showClosetDetail(item, { push: true });
+    });
+  }
+
   const yearEl = byId("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
   setLayout(getInitialLayout());
-  render(currentPage);
+  if (isCloset) {
+    const item = getClosetItemFromPath();
+    if (item) showClosetDetail(item, { push: false });
+    else showClosetList();
+  } else {
+    render(currentPage);
+  }
 }
 
 main();
