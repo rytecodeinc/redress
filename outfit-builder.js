@@ -104,6 +104,21 @@ function clamp(n, min, max) {
   return Math.min(max, Math.max(min, n));
 }
 
+function truncateToWidth(ctx, text, maxWidth) {
+  if (!text) return "";
+  if (ctx.measureText(text).width <= maxWidth) return text;
+  const ellipsis = "…";
+  let lo = 0;
+  let hi = text.length;
+  while (lo < hi) {
+    const mid = Math.ceil((lo + hi) / 2);
+    const candidate = text.slice(0, mid) + ellipsis;
+    if (ctx.measureText(candidate).width <= maxWidth) lo = mid;
+    else hi = mid - 1;
+  }
+  return text.slice(0, Math.max(0, lo)) + ellipsis;
+}
+
 function main() {
   const gridEl = qs("#obItemGrid");
   const metaEl = qs("#obResultsMeta");
@@ -111,6 +126,7 @@ function main() {
   const clearFiltersBtn = qs(".ob-clear-filters");
   const clearCanvasBtn = qs(".ob-clear-canvas");
   const deleteSelectedBtn = qs(".ob-delete-selected");
+  const downloadBtn = qs(".ob-download-canvas");
   const galleryBtn = qs(".ob-toggle-gallery");
   const compactBtn = qs(".ob-toggle-compact");
 
@@ -171,6 +187,92 @@ function main() {
     itemEl.style.zIndex = String(++zCounter);
     canvasEl.appendChild(itemEl);
     setSelected(itemEl);
+  }
+
+  function downloadCanvasImage() {
+    const canvasRect = canvasEl.getBoundingClientRect();
+    const width = Math.max(1, Math.round(canvasRect.width));
+    const height = Math.max(1, Math.round(canvasRect.height));
+
+    const items = Array.from(canvasEl.querySelectorAll(".ob-canvas-item"));
+    if (items.length === 0) {
+      // Still export an empty canvas so the button “works”
+      // (no alert needed; user can see it’s empty).
+    }
+
+    const dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
+    const out = document.createElement("canvas");
+    out.width = Math.round(width * dpr);
+    out.height = Math.round(height * dpr);
+    const ctx = out.getContext("2d");
+    if (!ctx) return;
+    ctx.scale(dpr, dpr);
+
+    const bg = getComputedStyle(canvasEl).backgroundColor;
+    ctx.fillStyle = bg && bg !== "rgba(0, 0, 0, 0)" ? bg : "#fff";
+    ctx.fillRect(0, 0, width, height);
+
+    // Draw in z-index order (fall back to DOM order).
+    const ordered = items
+      .map((el, idx) => ({
+        el,
+        idx,
+        z: Number.parseInt(el.style.zIndex || "0", 10) || 0,
+      }))
+      .sort((a, b) => (a.z !== b.z ? a.z - b.z : a.idx - b.idx));
+
+    for (const { el } of ordered) {
+      const mediaEl = el.querySelector(".ob-canvas-item-media");
+      const labelEl = el.querySelector(".ob-canvas-item-label");
+      if (!(mediaEl instanceof HTMLElement)) continue;
+
+      const mediaRect = mediaEl.getBoundingClientRect();
+      const mx = mediaRect.left - canvasRect.left;
+      const my = mediaRect.top - canvasRect.top;
+      const mw = mediaRect.width;
+      const mh = mediaRect.height;
+
+      const colorBlock = mediaEl.querySelector(".color-block");
+      const fill =
+        colorBlock instanceof HTMLElement
+          ? getComputedStyle(colorBlock).backgroundColor
+          : getComputedStyle(el).getPropertyValue("--tile").trim() || "#c8c7ba";
+
+      ctx.fillStyle = fill || "#c8c7ba";
+      ctx.fillRect(mx, my, mw, mh);
+
+      // Light border like the UI.
+      ctx.strokeStyle = "rgba(57, 57, 57, 0.12)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(mx + 0.5, my + 0.5, Math.max(0, mw - 1), Math.max(0, mh - 1));
+
+      if (labelEl instanceof HTMLElement) {
+        const labelRect = labelEl.getBoundingClientRect();
+        const lx = labelRect.left - canvasRect.left;
+        const ly = labelRect.top - canvasRect.top;
+        const lw = labelRect.width;
+
+        const cs = getComputedStyle(labelEl);
+        const fontSize = Number.parseFloat(cs.fontSize || "12") || 12;
+        const fontFamily = cs.fontFamily || "Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif";
+        const fontWeight = cs.fontWeight || "400";
+        ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+        ctx.fillStyle = cs.color || "rgba(57, 57, 57, 0.75)";
+        ctx.textBaseline = "top";
+
+        const raw = (labelEl.textContent || "").trim();
+        const text = truncateToWidth(ctx, raw, Math.max(0, lw));
+        ctx.fillText(text, lx, ly);
+      }
+    }
+
+    const stamp = new Date().toISOString().slice(0, 10);
+    const a = document.createElement("a");
+    a.download = `redress-outfit-${stamp}.png`;
+    a.href = out.toDataURL("image/png");
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   }
 
   function resizeCanvasItem(itemEl, deltaPx) {
@@ -321,6 +423,12 @@ function main() {
     canvasEl.innerHTML = "";
     setSelected(null);
   });
+
+  if (downloadBtn) {
+    downloadBtn.addEventListener("click", () => {
+      downloadCanvasImage();
+    });
+  }
 
   clearFiltersBtn.addEventListener("click", () => {
     qsa('input[name="cat"], input[name="color"]').forEach((i) => {
