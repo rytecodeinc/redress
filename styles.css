@@ -45,6 +45,8 @@ body.redress-app:not(.page-outfit-builder) {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* Allow the page to grow taller than the viewport so content never renders "under" the footer. */
+  height: auto;
 }
 
 body.redress-app:not(.page-outfit-builder) > main.page {
