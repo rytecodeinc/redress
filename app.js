@@ -61,6 +61,8 @@ const PRODUCTS = [
   "Koru Statement Ring",
 ];
 
+const OUTFITS = Array.from({ length: 48 }, (_, i) => `Outfit ${String(i + 1).padStart(2, "0")}`);
+
 const CLOSET_CATEGORIES = ["Tops", "Bottoms", "Shoes", "Outerwear", "Bags", "Accessories", "Dresses"];
 const CLOSET_SIZES = ["XS", "S", "M", "L"];
 const CLOSET_COLORS = ["Sage", "Stone", "Ivory", "Sand", "Black", "Navy"];
@@ -103,6 +105,18 @@ function buildProductList(names) {
     const id = idx + 1;
     const tag = idx % 7 === 0 ? "Just In" : idx % 11 === 0 ? "Trending" : "New";
     return { id, name, tag };
+  });
+}
+
+function buildOutfitList(names) {
+  return names.map((name, idx) => {
+    const id = idx + 1;
+    return {
+      id: `outfit-${id}`,
+      name,
+      tag: idx % 5 === 0 ? "Pinned" : idx % 3 === 0 ? "Recent" : "Saved",
+      tile: "#e5e7eb",
+    };
   });
 }
 
@@ -219,6 +233,7 @@ function makePageRange(current, total) {
 function renderGrid(gridEl, items) {
   const showWishlistBadge = gridEl.dataset.wishlist === "true";
   const isCloset = gridEl.dataset.closet === "true";
+  const isOutfits = gridEl.dataset.outfits === "true";
   const basePath = getBasePath();
   gridEl.innerHTML = items
     .map(
@@ -231,7 +246,9 @@ function renderGrid(gridEl, items) {
               )}`
             : "#"
         }" ${isCloset ? `data-closet-id="${escapeHtml(p.id)}"` : ""} aria-label="${escapeHtml(p.name)}">
-          <div class="card-media ns-product-media" style="${p.tile ? `--tile:${escapeHtml(p.tile)}` : ""}">
+          <div class="card-media ns-product-media${isOutfits ? " outfit-media" : ""}" style="${
+            p.tile ? `--tile:${escapeHtml(p.tile)}` : isOutfits ? "--tile:#e5e7eb" : ""
+          }">
             <div class="color-block" aria-hidden="true"></div>
             ${
               showWishlistBadge
@@ -314,7 +331,12 @@ function main() {
   const compactBtn = document.querySelector(".ns-toggle-compact");
 
   const isCloset = gridEl.dataset.closet === "true";
-  const allProducts = isCloset ? buildClosetList(PRODUCTS) : buildProductList(PRODUCTS);
+  const isOutfits = gridEl.dataset.outfits === "true";
+  const allProducts = isCloset
+    ? buildClosetList(PRODUCTS)
+    : isOutfits
+      ? buildOutfitList(OUTFITS)
+      : buildProductList(PRODUCTS);
 
   let sortMode = sortSelect.value;
   let sorted = applySort(allProducts, sortMode);

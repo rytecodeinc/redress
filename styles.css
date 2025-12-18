@@ -983,6 +983,17 @@ select {
   aspect-ratio: 2 / 3;
 }
 
+.outfit-media {
+  /* Outfit images are wider rectangles */
+  aspect-ratio: 3 / 2;
+  border: 1px solid rgba(57, 57, 57, 0.12);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+#ns-product-grid[data-outfits="true"] .color-block {
+  background: #e5e7eb;
+}
+
 .card:hover .card-media {
   transform: none;
   border-color: transparent;
