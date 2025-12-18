@@ -121,7 +121,7 @@ function sampleFrom(list, idx) {
 
 function buildClosetList(names) {
   return names.map((name, idx) => {
-    const category = sampleFrom(CLOSET_CATEGORIES, idx);
+    const category = inferCategory(name);
     const size = sampleFrom(CLOSET_SIZES, idx);
     const brand = sampleFrom(CLOSET_BRANDS, idx);
     const tile = sampleFrom(CLOSET_TILES, idx);
@@ -154,6 +154,26 @@ function buildClosetList(names) {
       slugCategory: slugify(category),
     };
   });
+}
+
+function inferCategory(name) {
+  const n = String(name || "").toLowerCase();
+
+  // Specific buckets first.
+  if (/(tote|shoulder bag|bag|clutch)\b/.test(n)) return "Bags";
+  if (/(earring|necklace|bangle|ring|hat)\b/.test(n)) return "Accessories";
+  if (/(trench|coat|jacket|blazer)\b/.test(n)) return "Outerwear";
+  if (/(sandal|mule|heel|slingback|boot|sneaker|shoe)\b/.test(n)) return "Shoes";
+  if (/\bdress\b/.test(n)) return "Dresses";
+
+  // Bottoms.
+  if (/(skirt|trouser|pant|pants|jean|denim|short)\b/.test(n)) return "Bottoms";
+
+  // Tops / sets / misc clothing.
+  if (/(top|tank|cami|shirt|blouse|cardigan|sweater|knit|corset|vest|wrap)\b/.test(n)) return "Tops";
+
+  // Default fallback.
+  return sampleFrom(CLOSET_CATEGORIES, slugify(name).length || 0);
 }
 
 function applySort(items, sortMode) {
@@ -424,10 +444,13 @@ function main() {
     const headerEl = document.querySelector("redress-page-header");
     if (!headerEl) return;
     const basePath = getBasePath();
+    const categoryHref = `${basePath}closet/${encodeURIComponent(item.category || "Category")}/`;
     headerEl.setAttribute("active", "closet");
     headerEl.setAttribute("crumb", item.name);
     headerEl.setAttribute("parent-title", "Closet");
     headerEl.setAttribute("parent-href", `${basePath}closet/`);
+    headerEl.setAttribute("parent2-title", item.category || "Category");
+    headerEl.setAttribute("parent2-href", categoryHref);
     headerEl.setAttribute("hide-title", "true");
     document.title = `Redress — ${item.name}`;
   }

@@ -80,6 +80,8 @@ class RedressPageHeader extends HTMLElement {
       "hide-title",
       "parent-title",
       "parent-href",
+      "parent2-title",
+      "parent2-href",
     ];
   }
 
@@ -101,6 +103,8 @@ class RedressPageHeader extends HTMLElement {
 
     const parentTitle = this.getAttribute("parent-title") || "";
     const parentHref = this.getAttribute("parent-href") || "";
+    const parent2Title = this.getAttribute("parent2-title") || "";
+    const parent2Href = this.getAttribute("parent2-href") || "";
     const hideTitle = this.getAttribute("hide-title") === "true";
 
     const basePath = getBasePath();
@@ -109,6 +113,16 @@ class RedressPageHeader extends HTMLElement {
     let crumbsHtml = "";
     if (!showHomeLink) {
       crumbsHtml = `<span aria-current="page">${escapeHtml(crumb || "Home")}</span>`;
+    } else if (parentTitle && parentHref && parent2Title && parent2Href) {
+      crumbsHtml = `
+        <a href="${baseUrl}">Home</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <a href="${parentHref}">${escapeHtml(parentTitle)}</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <a href="${parent2Href}">${escapeHtml(parent2Title)}</a>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">${escapeHtml(crumb)}</span>
+      `;
     } else if (parentTitle && parentHref) {
       crumbsHtml = `
         <a href="${baseUrl}">Home</a>
